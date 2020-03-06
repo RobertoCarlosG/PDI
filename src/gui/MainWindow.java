@@ -110,7 +110,7 @@ public class MainWindow {
 		boxOperacion.addItem("+");
 		boxOperacion.addItem("-");
 		boxOperacion.addItem("*");
-		boxOperacion.addItem("C");
+		boxOperacion.addItem("#");
 		boxOperacion.setBounds(222, 156, 50, 20);
 		frame.getContentPane().add(boxOperacion);
 		
@@ -148,7 +148,7 @@ public class MainWindow {
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
 						break;
-					case "C":
+					case "#":
 						System.out.println("combinacion lineal");
 						result = OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto);
 						lblResult.setVisible(true);
