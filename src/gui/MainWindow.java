@@ -149,7 +149,7 @@ public class MainWindow {
 						btnCerrar.setVisible(true);
 						break;
 					case "C":
-						System.out.println("multiplicando");
+						System.out.println("combinacion lineal");
 						result = OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto);
 						lblResult.setVisible(true);
 						icono = new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
