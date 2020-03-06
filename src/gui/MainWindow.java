@@ -110,6 +110,7 @@ public class MainWindow {
 		boxOperacion.addItem("+");
 		boxOperacion.addItem("-");
 		boxOperacion.addItem("*");
+		boxOperacion.addItem("C");
 		boxOperacion.setBounds(222, 156, 50, 20);
 		frame.getContentPane().add(boxOperacion);
 		
@@ -142,6 +143,14 @@ public class MainWindow {
 					case "*":
 						System.out.println("multiplicando");
 						result = OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto);
+						lblResult.setVisible(true);
+						icono = new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						lblResult.setIcon(icono);
+						btnCerrar.setVisible(true);
+						break;
+					case "C":
+						System.out.println("multiplicando");
+						result = OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto);
 						lblResult.setVisible(true);
 						icono = new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
