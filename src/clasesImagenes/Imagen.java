@@ -80,6 +80,10 @@ public class Imagen {
     }
 
     //Convierte un objeto de tipo imagen en BufferedImage
+    /*
+     * FUNCION IMPRIMIR IMAGEN
+     * 
+     * */
     public BufferedImage imprimirImagen(){
         BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < alto; i++)
@@ -89,34 +93,52 @@ public class Imagen {
         
         return salida;
     }
-	public BufferedImage sumar(Imagen obj, Imagen obj2) {
+	
+    /*
+     * FUNCION IMPRIMIR SUMAR
+     * 
+     * */
+    
+    public BufferedImage sumar(Imagen obj, Imagen obj2, int _ancho,int _alto) {
 		// TODO Auto-generated method stub
-		BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
-    	for (int i = 0; i < alto; i++)
-            for (int j = 0; j < ancho; j++)
+		BufferedImage salida = new BufferedImage(_ancho, _alto, BufferedImage.TYPE_INT_RGB);
+    	for (int i = 0; i < _alto; i++)
+            for (int j = 0; j < _ancho; j++)
             	salida.setRGB(j, i,( (obj.arreglo[i][j].getRGB()) + (obj2.arreglo[i][j].getRGB())));
     	return salida;
 	}
-	public BufferedImage restar(Imagen obj, Imagen obj2) {
+	
+    /*
+     * FUNCION IMPRIMIR RESTAR
+     * 
+     * */
+    
+	public BufferedImage restar(Imagen obj, Imagen obj2, int _ancho,int _alto) {
 		// TODO Auto-generated method stub
 		BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
-    	for (int i = 0; i < alto; i++)
-            for (int j = 0; j < ancho; j++)
+    	for (int i = 0; i < _alto; i++)
+            for (int j = 0; j < _ancho; j++)
             	//Obtenemos el valor resultante de una resta de rgb
             	salida.setRGB(j, i,( (obj.arreglo[i][j].getRGB()) - (obj2.arreglo[i][j].getRGB())));
     	return salida;
 	}
-	public BufferedImage multiplicar(Imagen obj, Imagen obj2) {
+	
+	/*
+     * FUNCION IMPRIMIR MULTIPLICAR
+     * 
+     * */
+	
+	public BufferedImage multiplicar(Imagen obj, Imagen obj2, int _ancho,int _alto) {
 		// TODO Auto-generated method stub
 		BufferedImage A         = obj.imprimirImagen();
 		BufferedImage B         = obj2.imprimirImagen();
-		BufferedImage salida    = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+		BufferedImage salida    = new BufferedImage(_ancho, _alto, BufferedImage.TYPE_INT_RGB);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
 		int k = 1 / 255;
-		for(int i = 0; i < ancho; i++)
+		for(int i = 0; i < _ancho; i++)
 		{
-			for(int j = 0; j < alto; j++)
+			for(int j = 0; j < _alto; j++)
 			{
 				/*
 				 * siguinendo las indicaciones del profesor para la multiplicacion
@@ -138,6 +160,11 @@ public class Imagen {
 		}
         return salida;
 	}
+	
+	/*
+     * FUNCION IMPRIMIR COMBINACION LINEAL
+     * 
+     * */
 	
 	public static BufferedImage combinacion_lineal(Imagen obj, Imagen obj2,int _ancho, int _alto)
 	{
