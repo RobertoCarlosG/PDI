@@ -16,7 +16,10 @@ public class chunk {
 	//Recibir coordenada o n_bloque
 	/*
 	 * aqui debemos calcular el bloque que corresponde a este
-	 * numero
+	 * numero, pero no parece que sea perteneciente a esta clase,
+	 * debemos sacar cuantos pixeles de alto y cuantos de ancho
+	 * para poder procesar una operacion OperarImagen
+	 * 
 	public Chunk obtainChunk(int n_bloque){
 		
 	}
