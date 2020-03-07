@@ -7,7 +7,7 @@ public class chunk {
 	int cpos[][];
 	int crows;
 	
-	public chunk(int col,int row, int pos){
+	public chunk(int col,int row, int pos[][]){
 		ccols	=	col;
 		crows	=	row;
 		cpos	=	pos;
@@ -30,7 +30,7 @@ public class chunk {
 		return crows;
 	}
 	
-	public int get_cpos(){
+	public int[][] get_cpos(){
 		return cpos;
 	}
 	
