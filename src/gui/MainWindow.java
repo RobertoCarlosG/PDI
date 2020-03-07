@@ -110,6 +110,7 @@ public class MainWindow {
 		boxOperacion.addItem("+");
 		boxOperacion.addItem("-");
 		boxOperacion.addItem("*");
+		boxOperacion.addItem("#");
 		boxOperacion.setBounds(222, 156, 50, 20);
 		frame.getContentPane().add(boxOperacion);
 		
@@ -120,30 +121,39 @@ public class MainWindow {
 					String current = boxOperacion.getSelectedItem().toString();
 					int auxAncho, auxAlto;
 					ImageIcon icono;
-					auxAncho = new Integer( Math.min(img1.getWidth(), img2.getWidth()));
-					auxAlto = new Integer(Math.min(img1.getHeight(), img2.getHeight()));
+					
+					auxAncho	= new Integer( Math.min(img1.getWidth(), img2.getWidth()));
+					auxAlto		= new Integer(Math.min(img1.getHeight(), img2.getHeight()));
 					switch(current){
 					case "+":
 						System.out.println("sumando");
-						result = OperarImagen.suma(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto);
 						lblResult.setVisible(true);
-						icono = new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
 						break;
 					case "-":
 						System.out.println("resta");
-						result = OperarImagen.resta(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto);
 						lblResult.setVisible(true);
-						icono = new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
 						break;
 					case "*":
 						System.out.println("multiplicando");
-						result = OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto);
 						lblResult.setVisible(true);
-						icono = new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						lblResult.setIcon(icono);
+						btnCerrar.setVisible(true);
+						break;
+					case "#":
+						System.out.println("combinacion lineal");
+						result	= OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto);
+						lblResult.setVisible(true);
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
 						break;

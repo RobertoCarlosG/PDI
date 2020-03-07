@@ -15,12 +15,17 @@ public class abrirImagen {
    }
    
    private boolean abrirJFileChooser(){
-	   String fileFilterPath = "C:\\Users\\ChristianPasten\\Pictures";
+	   String fileFilterPath = "C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\800x600";
+	   //Creamos un dialogo para seleccionar archivos
 	   this.selectorDialog = new JFileChooser();
+	   // se carga la direccion inicial
 	   File init = new File(fileFilterPath);
+	   // se configura la direccion inicial
 	   this.selectorDialog.setCurrentDirectory(init);
 	   this.selectorDialog.setDialogTitle("Elige una Imagen");
+	   // cargar el tipo de seleccion
 	   this.selectorDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
+	   // extencion del archivo
 	   FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Imagenes","jpg","jpeg","bmp");
 	   selectorDialog.setFileFilter(imgFilter);
 	   int flag = this.selectorDialog.showOpenDialog(null);
@@ -35,6 +40,7 @@ public class abrirImagen {
       BufferedImage imagenRetorno = null;
       if(this.abrirJFileChooser() == true){
           try {
+        	  //se carga la imagen seleccionada
               imagenRetorno = ImageIO.read(this.selectorDialog.getSelectedFile());
               if (imagenRetorno!=null){
             	  //Aqui deberia construit un onjeto de tipo imagen
