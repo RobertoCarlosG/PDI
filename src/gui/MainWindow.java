@@ -120,10 +120,21 @@ public class MainWindow {
 				if(lbl1 && lbl2){
 					String current = boxOperacion.getSelectedItem().toString();
 					int auxAncho, auxAlto;
+					int cols,rows;
 					ImageIcon icono;
 					
 					auxAncho	= new Integer( Math.min(img1.getWidth(), img2.getWidth()));
 					auxAlto		= new Integer(Math.min(img1.getHeight(), img2.getHeight()));
+					
+					/*
+					 * con esta division hago que sea practicamente los mismos bloques
+					 * que tiene el profesor en su imagen, 6 columnas y 4 filas
+					 * */
+					
+					cols		= (int) Math.floor(auxAncho/175);
+					rows		= (int) Math.floor(auxAlto/170);
+					System.out.println("filas : "+rows+"\tcolumnas : "+cols);
+					
 					switch(current){
 					case "+":
 						System.out.println("sumando");
