@@ -20,11 +20,13 @@ public class Imagen {
 	int img2[][];
 	int imgR[][];
 	
+	//Aquí declaro anchos minimos permitidos
 	public static final int anchoPermitido=800;
     public static final int altoPermitido=600;
+    //Matrices equivalente a la imagen 
     public Color arreglo[][];
-//    public Color arregloaux[][];
     public Color auxarreglo[][];
+    //ancho y alto estandar
     public int ancho;
     public int alto;
     public Imagen(String archivo) {
@@ -77,14 +79,14 @@ public class Imagen {
         return bufim;
     }
 
-    
+    //Convierte un objeto de tipo imagen en BufferedImage
     public BufferedImage imprimirImagen(){
         BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
-        for (int i = 0; i < alto; i++) {
-            for (int j = 0; j < ancho; j++) {
+        for (int i = 0; i < alto; i++)
+            for (int j = 0; j < ancho; j++) 
+            	//Asignamos cada color a una matriz de colores para formar una imagen
                 salida.setRGB(j, i, arreglo[i][j].getRGB());
-            }
-        }
+        
         return salida;
     }
 	public BufferedImage sumar(Imagen obj, Imagen obj2) {
@@ -100,6 +102,7 @@ public class Imagen {
 		BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
     	for (int i = 0; i < alto; i++)
             for (int j = 0; j < ancho; j++)
+            	//Obtenemos el valor resultante de una resta de rgb
             	salida.setRGB(j, i,( (obj.arreglo[i][j].getRGB()) - (obj2.arreglo[i][j].getRGB())));
     	return salida;
 	}
