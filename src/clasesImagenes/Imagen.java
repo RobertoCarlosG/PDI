@@ -138,6 +138,58 @@ public class Imagen {
 		}
         return salida;
 	}
+	
+	public static BufferedImage combinacion_lineal(Imagen obj, Imagen obj2,int _ancho, int _alto)
+	{
+
+		BufferedImage A         = obj.imprimirImagen();
+		BufferedImage B         = obj2.imprimirImagen();
+		BufferedImage res = new BufferedImage(_ancho,_alto,BufferedImage.TYPE_INT_RGB);
+		Color rgb1, rgb2, auxColor;
+		int r, g, b;
+		for(int i = 0; i < _ancho; i++)
+		{
+			for(int j = 0; j < _alto; j++)
+			{
+				/*
+				 * siguinendo las indicaciones del profesor para la Combinacion lineal
+				 * asi se declara la formula
+				*/
+				rgb1 = new Color(A.getRGB(i,j));
+				rgb2 = new Color(B.getRGB(i,j));
+				if(rgb1.getRed() + rgb2.getRed() <= 255){
+					/*
+					 * uso la funcion de piso para obtener el numero menor de la 
+					 * multiplicacion y lo casteo a numero entero
+					 * 
+					
+					*/
+					r = (int) Math.floor(rgb1.getRed()*0.4 + rgb2.getRed()*0.6);
+				}else{
+					r = 255;
+				}
+				if(rgb1.getBlue() + rgb2.getBlue() <= 255){
+					g = (int) Math.floor(rgb1.getBlue()*0.4 + rgb2.getBlue()*0.6);
+				}else{
+					g = 255;
+				}
+				if(rgb1.getGreen() + rgb2.getGreen() <= 255){
+					b = (int) Math.floor(rgb1.getGreen()*0.4 + rgb2.getGreen()*0.6);
+				}else{
+					b = 255;
+				}
+				auxColor = new Color(r,g,b);
+				/*
+				 * Set RGB va creando una imagen conforme enviamos los pixeles
+				 * en las pocisiones (i,j)
+				*/
+				res.setRGB(i, j, auxColor.getRGB());
+			}
+		}
+	return res;
+
+	}
+
 
 	
 	public int pixel2matrix(int alto,int ancho){
