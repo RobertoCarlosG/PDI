@@ -129,6 +129,9 @@ public class MainWindow {
 					/*
 					 * con esta division hago que sea practicamente los mismos bloques
 					 * que tiene el profesor en su imagen, 6 columnas y 4 filas
+					 * lo que indica que cada bloque tendra 175 pixeles de ancho por
+					 * 170 de alto, con esta informacion podemos manejar y comenzar a crear
+					 * los objetos chunk para procesar cada uno de ellos
 					 * */
 					
 					cols		= (int) Math.floor(auxAncho/175);
