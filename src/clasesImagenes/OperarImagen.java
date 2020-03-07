@@ -12,6 +12,7 @@ public class OperarImagen {
 		ImageIcon icono = new ImageIcon(A.getScaledInstance(190, 190, Image.SCALE_SMOOTH));
 		return icono;
 	}
+	
 	public static BufferedImage suma(BufferedImage A, BufferedImage B, int ancho, int alto)
 	{
 		//Buffered es una extension de la clase Image de java, seleccionamos el tipo de
