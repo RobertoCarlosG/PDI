@@ -29,10 +29,12 @@ public class Imagen {
     //ancho y alto estandar
     public int ancho;
     public int alto;
+    
     public Imagen(String archivo) {
         arreglo = new Color[anchoPermitido][anchoPermitido];
         cargarImagen(archivo);
     }
+    
     public void cargarImagen(String archivo){
         BufferedImage bf=null;
         try {
@@ -59,6 +61,7 @@ public class Imagen {
         }
 
     }
+    
     public BufferedImage redimensionar(String archivo, double porcentaje ){
 
         BufferedImage bf = null;
