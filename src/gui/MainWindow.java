@@ -141,7 +141,7 @@ public class MainWindow {
 					switch(current){
 					case "+":
 						System.out.println("sumando");
-						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/175,/*pixeles*fila*/170);
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);

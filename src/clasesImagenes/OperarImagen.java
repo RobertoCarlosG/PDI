@@ -7,13 +7,14 @@ import java.awt.Color;
 
 public class OperarImagen {
 	
+	
 	//metodo para regresar como icono la imagen seleccionada
 	public static ImageIcon redimension(BufferedImage A){
 		ImageIcon icono = new ImageIcon(A.getScaledInstance(190, 190, Image.SCALE_SMOOTH));
 		return icono;
 	}
 	
-	public static BufferedImage suma(BufferedImage A, BufferedImage B, int ancho, int alto)
+	public static BufferedImage suma(BufferedImage A, BufferedImage B, int ancho, int alto, int rows, int cols)
 	{
 		//Buffered es una extension de la clase Image de java, seleccionamos el tipo de
 		//datos que entraran para formar la imagen en este caso enteros correspondientes
@@ -21,6 +22,8 @@ public class OperarImagen {
 		BufferedImage res = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
+		//Obteniendo el numero de saltos que hara cada bloque
+		
 		for(int i = 0; i < ancho; i++)
 		{
 			for(int j = 0; j < alto; j++)
