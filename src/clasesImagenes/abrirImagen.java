@@ -26,7 +26,7 @@ public class abrirImagen {
 	   // cargar el tipo de seleccion
 	   this.selectorDialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
 	   // extencion del archivo
-	   FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Imagenes","jpg","jpeg","bmp");
+	   FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("Imagenes","jpg","jpeg","bmp","png");
 	   selectorDialog.setFileFilter(imgFilter);
 	   int flag = this.selectorDialog.showOpenDialog(null);
 	   if (flag==JFileChooser.APPROVE_OPTION){

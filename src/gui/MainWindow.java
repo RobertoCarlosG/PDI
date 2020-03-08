@@ -134,9 +134,10 @@ public class MainWindow {
 					 * los objetos chunk para procesar cada uno de ellos
 					 * */
 					
-					cols		= (int) Math.floor(auxAncho/175);
-					rows		= (int) Math.floor(auxAlto/170);
+					cols		= (int) Math.floor(auxAncho/133);
+					rows		= (int) Math.floor(auxAlto/150);
 					System.out.println("filas : "+rows+"\tcolumnas : "+cols);
+					System.out.println("Ancho: " +auxAncho+"\tAlto: "+auxAlto);
 					
 					switch(current){
 					case "+":
