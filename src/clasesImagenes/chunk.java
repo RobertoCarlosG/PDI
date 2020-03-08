@@ -47,6 +47,7 @@ public class chunk {
 	//bloque uno avanza hasta el pixel [1][175] y termina en el [170][175], por ende debemos sumar
 	//uno con el numero dado, comprobamos si es 0 el primero, otro caso se suma uno y al final solo
 	//comprobar si es el limite de la matriz
+	
 	public int[][] getSection(int board[][],int x, int y)
 	{
 		int result[][] = null; 
