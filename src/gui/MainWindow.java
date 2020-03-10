@@ -52,7 +52,7 @@ public class MainWindow {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblResult = new JLabel("");
-		lblResult.setBounds(100, 10, 300, 300);
+		lblResult.setBounds(100, 10, 273, 300);
 		frame.getContentPane().add(lblResult);
 		lblResult.setVisible(false);
 		
@@ -134,8 +134,8 @@ public class MainWindow {
 					 * los objetos chunk para procesar cada uno de ellos
 					 * */
 					
-					cols		= (int) Math.floor(auxAncho/175);
-					rows		= (int) Math.floor(auxAlto/170);
+					cols		= (int) Math.floor(auxAncho/133);
+					rows		= (int) Math.floor(auxAlto/150);
 					System.out.println("filas : "+rows+"\tcolumnas : "+cols);
 					
 					switch(current){

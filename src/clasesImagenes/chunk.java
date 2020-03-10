@@ -8,6 +8,7 @@ public class chunk {
 	int crows;
 	int pixelescols = 175;
 	int pixelesrows = 170;
+	boolean redi	= false;
 	
 	public chunk (){}
 	
@@ -68,7 +69,8 @@ public class chunk {
 					auxrow++;
 					//accedemos a la posicion de los auxiliares que en primer turno valen x
 					//correspondiente a las coordenadas ingresadas
-					result[i][j] = board[auxcol][auxrow];
+					result[i][j]	= board[auxcol][auxrow];
+					redi			= true;
 				}
 			}
 		}else{
@@ -82,7 +84,8 @@ public class chunk {
 					auxrow++;
 					//accedemos a la posicion de los auxiliares que en primer turno valen x
 					//correspondiente a las coordenadas ingresadas
-					result[i][j] = board[auxcol][auxrow];
+					result[i][j]	= board[auxcol][auxrow];
+					redi			= true;
 				}
 			}
 		}

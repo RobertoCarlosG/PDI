@@ -3,7 +3,9 @@ package clasesImagenes;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class OperarImagen {
 	
@@ -14,21 +16,38 @@ public class OperarImagen {
 		return icono;
 	}
 	
+	public static BufferedImage redimensionar(BufferedImage A){
+		 BufferedImage bf = A;
+	       
+	        int ancho = bf.getWidth();
+	        int alto = bf.getHeight();
+	        int escalaAncho = (int)(1* ancho);
+	        int escalaAlto = (int)(1*alto);
+	        BufferedImage bufim = new BufferedImage(escalaAncho, escalaAlto, bf.getType());
+	        Graphics2D g = bufim.createGraphics();
+	        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	        g.drawImage(bf, 0,0, escalaAncho,escalaAlto, 0,0,ancho,alto, null);
+	        g.dispose();
+	        return bufim;
+	}
+	
 	public static BufferedImage suma(BufferedImage A, BufferedImage B, int ancho, int alto, int rows, int cols)
 	{
 		//Buffered es una extension de la clase Image de java, seleccionamos el tipo de
 		//datos que entraran para formar la imagen en este caso enteros correspondientes
 		//al numero RGB del color seleccionado por pixel
 		BufferedImage res	= new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		res					= redimensionar(res);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
 		int ancho_bloque[]	= new int[6];
 		int alto_bloque[]	= new int[4];
+		
 		//Obteniendo el numero de saltos que hara cada bloque
-		for(int j = 0; j<rows;j++)
-			ancho_bloque[j]	= (int) Math.floor(175*j);				
-		for(int j = 0; j<cols;j++)
-			alto_bloque[j]	= (int) Math.floor(170*j);
+		for(int j = 0; j<6;j++)
+			ancho_bloque[j]	= (int) Math.floor(133*j);				
+		for(int j = 0; j<4;j++)
+			alto_bloque[j]	= (int) Math.floor(150*j);
 		
 		for(int i = 0; i < ancho; i++)
 		{
