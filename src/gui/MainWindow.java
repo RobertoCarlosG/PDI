@@ -52,7 +52,7 @@ public class MainWindow {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblResult = new JLabel("");
-		lblResult.setBounds(100, 10, 300, 300);
+		lblResult.setBounds(100, 10, 273, 300);
 		frame.getContentPane().add(lblResult);
 		lblResult.setVisible(false);
 		
@@ -142,7 +142,7 @@ public class MainWindow {
 					switch(current){
 					case "+":
 						System.out.println("sumando");
-						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/175,/*pixeles*fila*/170);
+						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/cols,/*pixeles*fila*/rows);
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);

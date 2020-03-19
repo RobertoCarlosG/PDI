@@ -8,6 +8,7 @@ public class chunk {
 	int crows;
 	int pixelescols = 175;
 	int pixelesrows = 170;
+	boolean redi	= false;
 	
 	public chunk (){}
 	
@@ -47,6 +48,7 @@ public class chunk {
 	//bloque uno avanza hasta el pixel [1][175] y termina en el [170][175], por ende debemos sumar
 	//uno con el numero dado, comprobamos si es 0 el primero, otro caso se suma uno y al final solo
 	//comprobar si es el limite de la matriz
+	
 	public int[][] getSection(int board[][],int x, int y)
 	{
 		int result[][] = null; 
@@ -67,7 +69,8 @@ public class chunk {
 					auxrow++;
 					//accedemos a la posicion de los auxiliares que en primer turno valen x
 					//correspondiente a las coordenadas ingresadas
-					result[i][j] = board[auxcol][auxrow];
+					result[i][j]	= board[auxcol][auxrow];
+					redi			= true;
 				}
 			}
 		}else{
@@ -81,7 +84,8 @@ public class chunk {
 					auxrow++;
 					//accedemos a la posicion de los auxiliares que en primer turno valen x
 					//correspondiente a las coordenadas ingresadas
-					result[i][j] = board[auxcol][auxrow];
+					result[i][j]	= board[auxcol][auxrow];
+					redi			= true;
 				}
 			}
 		}
