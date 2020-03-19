@@ -3,12 +3,17 @@ package gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import clasesImagenes.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -64,18 +69,6 @@ public class MainWindow {
 		lblImg2.setBounds(282, 24, 190, 190);
 		frame.getContentPane().add(lblImg2);
 		
-		JButton btnCerrar = new JButton("Cerrar");
-		btnCerrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				btnCerrar.setVisible(false);
-				lblResult.setVisible(false);
-				lblResult.setIcon(null);
-			}
-		});
-		btnCerrar.setBounds(204, 321, 89, 23);
-		frame.getContentPane().add(btnCerrar);
-		btnCerrar.setVisible(false);
-		
 		JButton CargarImg2 = new JButton("Cargar");
 		CargarImg2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -114,9 +107,18 @@ public class MainWindow {
 		boxOperacion.setBounds(222, 156, 50, 20);
 		frame.getContentPane().add(boxOperacion);
 		
+		JButton btnCerrar = new JButton("Cerrar");
+		JButton btnGuardar = new JButton("Guardar");
+		
 		JButton btnProcesar = new JButton("Operar");
 		btnProcesar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				boxOperacion.hide();
+				CargarImg1.hide();
+				CargarImg2.hide();
+				lblImg1.hide();
+				lblImg2.hide();
+				btnProcesar.hide();
 				if(lbl1 && lbl2){
 					String current = boxOperacion.getSelectedItem().toString();
 					int auxAncho, auxAlto;
@@ -143,34 +145,42 @@ public class MainWindow {
 					case "+":
 						System.out.println("sumando");
 						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/cols,/*pixeles*fila*/rows);
+						OperarImagen.obtenerImagenAGuardar(result, "+");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
+						btnGuardar.setVisible(true);
 						break;
 					case "-":
 						System.out.println("resta");
 						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto);
+						OperarImagen.obtenerImagenAGuardar(result, "-");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
+						btnGuardar.setVisible(true);
 						break;
 					case "*":
 						System.out.println("multiplicando");
 						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto);
+						OperarImagen.obtenerImagenAGuardar(result, "*");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
+						btnGuardar.setVisible(true);
 						break;
 					case "#":
 						System.out.println("combinacion lineal");
 						result	= OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto);
+						OperarImagen.obtenerImagenAGuardar(result, "#");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCerrar.setVisible(true);
+						btnGuardar.setVisible(true);
 						break;
 					}
 				}
@@ -179,6 +189,40 @@ public class MainWindow {
 		btnProcesar.setBounds(194, 306, 89, 23);
 		frame.getContentPane().add(btnProcesar);
 		
+		btnCerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnCerrar.setVisible(false);
+				btnGuardar.setVisible(false);
+				lblResult.setVisible(false);
+				boxOperacion.show();
+				CargarImg1.show();
+				CargarImg2.show();
+				lblImg1.show();;
+				lblImg2.show();
+				btnProcesar.show();
+				lblResult.setIcon(null);
+			}
+		});
+		btnCerrar.setBounds(284, 321, 89, 23);
+		frame.getContentPane().add(btnCerrar);
+		btnCerrar.setVisible(false);
+		
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int resp = (int) JOptionPane.showConfirmDialog(null, "¿Seguro que quiere guardar la imagen?");
+				if (resp == 0){ //Si se desea guardar la imagen
+					OperarImagen.guardarImagen();
+					JOptionPane.showMessageDialog(null, "Se ha guardado la imagen");
+				}else if(resp == 1){ // No se desea guardar la imagen
+					JOptionPane.showMessageDialog(null, "No se ha guardado la imagen");
+				}else if(resp == 2){ // cancelar operación
+					JOptionPane.showMessageDialog(null, "Operación cancelada...");
+				}
+			}
+		});
+		btnGuardar.setBounds(100, 321, 89, 23);
+		frame.getContentPane().add(btnGuardar);
+		btnGuardar.setVisible(false);	
 	}
 }
   

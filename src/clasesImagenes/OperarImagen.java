@@ -1,6 +1,10 @@
 package clasesImagenes;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -9,11 +13,50 @@ import java.awt.Graphics2D;
 
 public class OperarImagen {
 	
-	
+	static BufferedImage imgSave;
+	static String op;
 	//metodo para regresar como icono la imagen seleccionada
 	public static ImageIcon redimension(BufferedImage A){
 		ImageIcon icono = new ImageIcon(A.getScaledInstance(190, 190, Image.SCALE_SMOOTH));
 		return icono;
+	}
+	
+	public static void obtenerImagenAGuardar(BufferedImage img, String operacion){
+		imgSave 	= img;
+		op 			= operacion;
+	}
+	
+	public static void guardarImagen(){
+		if(op == "+"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\Liz Vazquez\\Documents\\Universidad\\6to semestre\\Cómputo distribuido\\ImagenesResultantes\\ImgResultSuma.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(op == "-"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\Liz Vazquez\\Documents\\Universidad\\6to semestre\\Cómputo distribuido\\ImagenesResultantes\\ImgResultResta.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}else if(op == "*"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\Liz Vazquez\\Documents\\Universidad\\6to semestre\\Cómputo distribuido\\ImagenesResultantes\\ImgResultMult.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}else if(op == "#"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\Liz Vazquez\\Documents\\Universidad\\6to semestre\\Cómputo distribuido\\ImagenesResultantes\\ImgResultOpLineal.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		
 	}
 	
 	public static BufferedImage redimensionar(BufferedImage A){
