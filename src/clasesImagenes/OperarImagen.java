@@ -60,28 +60,28 @@ public class OperarImagen {
 		*/
 		if(op == "+"){
 			try {
-				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultSuma.png"));
+				ImageIO.write(imgSave, "png", new File("Resources\\ImgResultSuma.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if(op == "-"){
 			try {
-				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultResta.png"));
+				ImageIO.write(imgSave, "png", new File("Resources\\ImgResultResta.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 		}else if(op == "*"){
 			try {
-				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultMult.png"));
+				ImageIO.write(imgSave, "png", new File("Resources\\ImgResultMult.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 		}else if(op == "#"){
 			try {
-				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultOpLineal.png"));
+				ImageIO.write(imgSave, "png", new File("Resources\\ImgResultOpLineal.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

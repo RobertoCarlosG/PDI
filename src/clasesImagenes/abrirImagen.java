@@ -5,7 +5,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.eclipse.core.runtime.Path;
+
 import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 
 public class abrirImagen {
 	private JFileChooser selectorDialog;
@@ -15,7 +20,9 @@ public class abrirImagen {
    }
    
    private boolean abrirJFileChooser(){
-	   String fileFilterPath = "C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\800x600";
+	   String fileFilterPath = "Resources";
+	   String path = this.getClass().getClassLoader().getResource("gui").getPath();
+	   System.out.println(path);
 	   //Creamos un dialogo para seleccionar archivos
 	   this.selectorDialog = new JFileChooser();
 	   // se carga la direccion inicial
