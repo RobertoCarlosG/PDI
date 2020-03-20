@@ -74,13 +74,13 @@ public class OperarImagen {
 	        return bufim;
 	}
 	
-	public static BufferedImage suma(BufferedImage A, BufferedImage B, int ancho, int alto, int rows, int cols)
+	public static BufferedImage suma(BufferedImage A, BufferedImage B, int ancho, int alto, int cols, int rows)
 	{
 		//Buffered es una extension de la clase Image de java, seleccionamos el tipo de
 		//datos que entraran para formar la imagen en este caso enteros correspondientes
 		//al numero RGB del color seleccionado por pixel
-		BufferedImage res	= new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
-		res					= redimensionar(res);
+		BufferedImage sum	= new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		sum					= redimensionar(sum);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
 		int ancho_bloque[]	= new int[6];
@@ -163,17 +163,26 @@ public class OperarImagen {
 				 * en las pocisiones (i,j)
 				*/
 				auxColor = new Color(r,g,b);
-				res.setRGB(i, j, auxColor.getRGB());
+				sum.setRGB(i, j, auxColor.getRGB());
 			}
 		}
-	return res;
+	return sum;
 	}
 	
-	public static BufferedImage resta(BufferedImage A, BufferedImage B, int ancho, int alto)
+	public static BufferedImage resta(BufferedImage A, BufferedImage B, int ancho, int alto, int cols, int rows)
 	{
 		BufferedImage res = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		res				  = redimensionar(res);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
+		int ancho_bloque[]	= new int[6];
+		int alto_bloque[]	= new int[4];
+		//Obteniendo el numero de saltos que hara cada bloque
+		for(int j = 0; j<6;j++)
+			ancho_bloque[j]	= (int) Math.floor(133*j);				
+		for(int j = 0; j<4;j++)
+			alto_bloque[j]	= (int) Math.floor(150*j);
+				
 		for(int i = 0; i < ancho; i++)
 		{
 			for(int j = 0; j < alto; j++)
@@ -182,27 +191,45 @@ public class OperarImagen {
 				//donde declaramos todo de la misma manera
 				rgb1 = new Color(A.getRGB(i,j));
 				rgb2 = new Color(B.getRGB(i,j));
-					r = Math.abs(rgb1.getRed() - rgb2.getRed());
-					g = Math.abs(rgb1.getBlue() - rgb2.getBlue());
-					b = Math.abs(rgb1.getGreen() - rgb2.getGreen());
-				auxColor = new Color(r,g,b);
+				r = Math.abs(rgb1.getRed() - rgb2.getRed());
+				g = Math.abs(rgb1.getBlue() - rgb2.getBlue());
+				b = Math.abs(rgb1.getGreen() - rgb2.getGreen());
+				
+				
+				if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
+				    i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) || 
+				   (j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]   || 
+				    j==alto_bloque[3])){
+					r = 0;
+					g = 0;
+					b = 0;
+				}
+				
 				/*
 				 * Set RGB va creando una imagen conforme enviamos los pixeles
 				 * en las pocisiones (i,j)
 				*/
+				auxColor = new Color(r,g,b);
 				res.setRGB(i, j, auxColor.getRGB());
-	
 			}
 		}
 	return res;
 	}
 	
-	public static BufferedImage multiplicacion(BufferedImage A, BufferedImage B,int ancho, int alto)
+	public static BufferedImage multiplicacion(BufferedImage A, BufferedImage B,int ancho, int alto, int cols, int rows)
 	{
-		BufferedImage res = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		BufferedImage multi = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		multi  			    = redimensionar(multi);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
 		int k = 1 / 255;
+		int ancho_bloque[]	= new int[6];
+		int alto_bloque[]	= new int[4];
+		//Obteniendo el numero de saltos que hara cada bloque
+		for(int j = 0; j<6;j++)
+			ancho_bloque[j]	= (int) Math.floor(133*j);				
+		for(int j = 0; j<4;j++)
+			alto_bloque[j]	= (int) Math.floor(150*j);
 		for(int i = 0; i < ancho; i++)
 		{
 			for(int j = 0; j < alto; j++)
@@ -216,23 +243,42 @@ public class OperarImagen {
 					r =  (rgb1.getRed() * rgb2.getRed())/255;
 					g =  (rgb1.getBlue() * rgb2.getBlue())/255;
 					b =  (rgb1.getGreen() * rgb2.getGreen())/255;
+					
+					if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
+						i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) || 
+						(j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]  || 
+						j==alto_bloque[3])){
+						r = 0;
+						g = 0;
+						b = 0;
+					}
+					
 				auxColor = new Color(r,g,b);
 				/*
 				 * Set RGB va creando una imagen conforme enviamos los pixeles
 				 * en las pocisiones (i,j)
 				*/
-				res.setRGB(i, j, auxColor.getRGB());
+				multi.setRGB(i, j, auxColor.getRGB());
 	
 			}
 		}
-	return res;
+	return multi;
 	}
 	
-	public static BufferedImage combinacion_lineal(BufferedImage A, BufferedImage B,int ancho, int alto)
+	public static BufferedImage combinacion_lineal(BufferedImage A, BufferedImage B,int ancho, int alto, int cols, int rows)
 	{
-		BufferedImage res = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		BufferedImage opLineal = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
+		opLineal  			   = redimensionar(opLineal);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
+		int ancho_bloque[]	= new int[6];
+		int alto_bloque[]	= new int[4];
+		//Obteniendo el numero de saltos que hara cada bloque
+		for(int j = 0; j<6;j++)
+			ancho_bloque[j]	= (int) Math.floor(133*j);				
+		for(int j = 0; j<4;j++)
+			alto_bloque[j]	= (int) Math.floor(150*j);
+		
 		for(int i = 0; i < ancho; i++)
 		{
 			for(int j = 0; j < alto; j++)
@@ -264,15 +310,25 @@ public class OperarImagen {
 				}else{
 					b = 255;
 				}
+				
+				if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
+					i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) || 
+					(j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]  || 
+					j==alto_bloque[3])){
+					r = 0;
+					g = 0;
+					b = 0;
+				}
+				
 				auxColor = new Color(r,g,b);
 				/*
 				 * Set RGB va creando una imagen conforme enviamos los pixeles
 				 * en las pocisiones (i,j)
 				*/
-				res.setRGB(i, j, auxColor.getRGB());
+				opLineal.setRGB(i, j, auxColor.getRGB());
 			}
 		}
-	return res;
+	return opLineal;
 
 	}
 }

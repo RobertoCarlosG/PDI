@@ -154,7 +154,7 @@ public class MainWindow {
 						break;
 					case "-":
 						System.out.println("resta");
-						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "-");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
@@ -164,7 +164,7 @@ public class MainWindow {
 						break;
 					case "*":
 						System.out.println("multiplicando");
-						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "*");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
@@ -174,7 +174,7 @@ public class MainWindow {
 						break;
 					case "#":
 						System.out.println("combinacion lineal");
-						result	= OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto);
+						result	= OperarImagen.combinacion_lineal(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "#");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
