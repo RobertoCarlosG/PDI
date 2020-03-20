@@ -5,6 +5,7 @@
 			<attribute name="ignore_optional_problems" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="Resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="C:/Users/Liz Vazquez/Downloads/eclipse/plugins/org.eclipse.osgi_3.10.102.v20160118-1700.jar" sourcepath="C:/Users/ChristianPasten/.p2/pool/plugins/org.eclipse.osgi_3.11.3.v20170209-1843.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Liz Vazquez/Downloads/eclipse/plugins/org.eclipse.core.commands_3.7.0.v20150422-0725.jar" sourcepath="C:/Users/ChristianPasten/.p2/pool/plugins/org.eclipse.core.commands_3.8.1.v20161221-1651.jar"/>
