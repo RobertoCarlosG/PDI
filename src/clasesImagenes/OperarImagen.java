@@ -27,7 +27,8 @@ public class OperarImagen {
 	}
 	
 	public static void guardarImagen(){
-		if(op == "+"){
+		/* DE LIZ
+		  if(op == "+"){
 			try {
 				ImageIO.write(imgSave, "png", new File("C:\\Users\\Liz Vazquez\\Documents\\Universidad\\6to semestre\\C�mputo distribuido\\ImagenesResultantes\\ImgResultSuma.png"));
 			} catch (IOException e) {
@@ -51,6 +52,36 @@ public class OperarImagen {
 		}else if(op == "#"){
 			try {
 				ImageIO.write(imgSave, "png", new File("C:\\Users\\Liz Vazquez\\Documents\\Universidad\\6to semestre\\C�mputo distribuido\\ImagenesResultantes\\ImgResultOpLineal.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		*/
+		if(op == "+"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultSuma.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(op == "-"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultResta.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}else if(op == "*"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultMult.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}else if(op == "#"){
+			try {
+				ImageIO.write(imgSave, "png", new File("C:\\Users\\rober\\OneDrive\\Escritorio\\Imagenes\\-800x600\\ImgResultOpLineal.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
