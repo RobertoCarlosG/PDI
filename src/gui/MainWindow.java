@@ -70,17 +70,24 @@ public class MainWindow {
 
 		JLabel lblImg1 = new JLabel("Imagen 1");
 		JLabel lblImg2 = new JLabel("Imagen 2");
+		JLabel lblResult = new JLabel("");
 		JButton CargarImg2 = new JButton("Cargar");
 		JButton CargarImg1 = new JButton("Cargar");
 		JComboBox boxOperacion = new JComboBox();
+		JButton btnCerrar = new JButton("Cerrar");
 		JButton btnProcesar = new JButton("PROCESAR");
 		JButton btnHecho = new JButton("Hecho");
+		JButton btnGuarda = new JButton("G U A R D A R");
 		JSlider sliderA = new JSlider();
 		JSlider sliderB = new JSlider();
 		JLabel lblAlfa = new JLabel("\u03B1");
 		JLabel lblBeta = new JLabel("\u03B2");
-
-
+		
+		btnGuarda.setBounds(413, 29, 215, 164);
+		frame.getContentPane().add(btnGuarda);
+		btnGuarda.setVisible(false);
+		
+		
 		lblImg1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblImg1.setBackground(Color.WHITE);
 		lblImg1.setBounds(22, 30, 300, 300);
@@ -90,6 +97,10 @@ public class MainWindow {
 		lblImg2.setBackground(Color.WHITE);
 		lblImg2.setBounds(474, 30, 300, 300);
 		frame.getContentPane().add(lblImg2);
+
+		lblResult.setBounds(100, 10, 273, 300);
+		frame.getContentPane().add(lblResult);
+		lblResult.setVisible(false);
 
 		CargarImg2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		CargarImg2.addActionListener(new ActionListener() {
@@ -132,24 +143,63 @@ public class MainWindow {
 		btnProcesar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnProcesar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+                boxOperacion.hide();
+				CargarImg1.hide();
+				CargarImg2.hide();
+				lblImg1.hide();
+				lblImg2.hide();
+				btnProcesar.hide();
 				if(lbl1 && lbl2){
 					String current = boxOperacion.getSelectedItem().toString();
 					int auxAncho, auxAlto;
-					ImageIcon icono = null;
+					int cols,rows;
+					ImageIcon icono;
 					auxAncho = new Integer( Math.min(img1.getWidth(), img2.getWidth()));
 					auxAlto = new Integer(Math.min(img1.getHeight(), img2.getHeight()));
+
+					/*
+					 * con esta division hago que sea practicamente los mismos bloques
+					 * que tiene el profesor en su imagen, 6 columnas y 4 filas
+					 * lo que indica que cada bloque tendra 175 pixeles de ancho por
+					 * 170 de alto, con esta informacion podemos manejar y comenzar a crear
+					 * los objetos chunk para procesar cada uno de ellos
+					 * */
+
+					cols		= (int) Math.floor(auxAncho/133);
+					rows		= (int) Math.floor(auxAlto/150);
+					System.out.println("filas : "+rows+"\tcolumnas : "+cols);
+					System.out.println("Ancho: " +auxAncho+"\tAlto: "+auxAlto);
+
 					switch(current){
 					case " + ":
-						result = OperarImagen.suma(img1, img2, auxAncho, auxAlto,0,0);
-						icono = new ImageIcon(result.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+						System.out.println("sumando");
+						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/cols,/*pixeles*fila*/rows);
+						OperarImagen.obtenerImagenAGuardar(result, "+");
+						lblResult.setVisible(true);
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						lblResult.setIcon(icono);
+						btnCerrar.setVisible(true);
+						btnGuarda.setVisible(true);
 						break;
 					case " - ":
-						result = OperarImagen.resta(img1, img2, auxAncho, auxAlto,0,0);
-						icono = new ImageIcon(result.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+                        System.out.println("resta");
+						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto, cols, rows);
+						OperarImagen.obtenerImagenAGuardar(result, "-");
+						lblResult.setVisible(true);
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						lblResult.setIcon(icono);
+						btnCerrar.setVisible(true);
+						btnGuarda.setVisible(true);
 						break;
 					case " * ":
-						result = OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto,0,0);
-						icono = new ImageIcon(result.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+						System.out.println("multiplicando");
+						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto, cols, rows);
+						OperarImagen.obtenerImagenAGuardar(result, "*");
+						lblResult.setVisible(true);
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+						lblResult.setIcon(icono);
+						btnCerrar.setVisible(true);
+						btnGuarda.setVisible(true);
 						break;
 					case "\u03B1 - \u03B2":
 						btnHecho.setVisible(true);
@@ -176,6 +226,7 @@ public class MainWindow {
 								}
 							}
 						});
+						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblRes.setIcon(icono);
 						imgRes.getContentPane().add(btnGuardar);
 						imgRes.getContentPane().add(lblRes);
@@ -202,36 +253,22 @@ public class MainWindow {
 				int auxAlto = new Integer(Math.min(img1.getHeight(), img2.getHeight()));
 				int alfa = sliderA.getValue();
 				int betta = sliderB.getValue();
-				result = OperarImagen.combinacionLineal(img1, img2, auxAncho, auxAlto,0,0,alfa,betta);
-				icono = new ImageIcon(result.getScaledInstance(300, 300, Image.SCALE_SMOOTH));
-				JDialog imgRes = new JDialog(frame,"Imagen Resultante");
-				JLabel lblRes = new JLabel();
-				JButton btnGuardar = new JButton("Guardar");
-				btnGuardar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnGuardar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						try{
-							ImageIO.write(result, "png", new File("Resources\\ImgResultSumax.png"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
-				lblRes.setIcon(icono);
-				imgRes.getContentPane().add(btnGuardar);
-				imgRes.getContentPane().add(lblRes);
-				imgRes.setSize(420, 420);
-				imgRes.setLocation(200, 200);
-				lblRes.setBounds(60, 0, 300, 300);
-				btnGuardar.setBounds(300, 340, 90, 25);
-				imgRes.setVisible(true);
+
+				System.out.println("combinacion lineal");
+                result = OperarImagen.combinacionLineal(img1, img2, auxAncho, auxAlto,0,0,alfa,betta);
+				OperarImagen.obtenerImagenAGuardar(result, "#");
+				lblResult.setVisible(true);
+				icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+				lblResult.setIcon(icono);
+				btnCerrar.setVisible(true);
+				btnGuarda.setVisible(true);
 				btnProcesar.setVisible(true);
-			}
+				}
+
 		});
 		frame.getContentPane().add(btnHecho);
 
-		
+
 		//Cambiando valores a Sliders
 		sliderB.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -294,7 +331,8 @@ public class MainWindow {
 		spinnerC.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		spinnerC.setBounds(235, 475, 38, 20);
 		frame.getContentPane().add(spinnerC);
+		
+		
 
 	}
 }
-  
