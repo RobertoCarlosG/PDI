@@ -73,7 +73,7 @@ public class MainWindow {
 		JButton CargarImg2 = new JButton("Cargar");
 		JButton CargarImg1 = new JButton("Cargar");
 		JComboBox boxOperacion = new JComboBox();
-		JButton btnProcesar = new JButton("Operar");
+		JButton btnProcesar = new JButton("PROCESAR");
 		JButton btnHecho = new JButton("Hecho");
 		JSlider sliderA = new JSlider();
 		JSlider sliderB = new JSlider();
@@ -189,7 +189,7 @@ public class MainWindow {
 				}
 			}
 		});
-		btnProcesar.setBounds(355, 375, 90, 25);
+		btnProcesar.setBounds(355, 375, 100, 25);
 		frame.getContentPane().add(btnProcesar);
 
 		btnHecho.setFont(new Font("Tahoma", Font.PLAIN, 13));
