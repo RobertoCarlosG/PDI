@@ -83,12 +83,12 @@ public class MainWindow {
 
 		lblImg1.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblImg1.setBackground(Color.WHITE);
-		lblImg1.setBounds(50, 25, 300, 300);
+		lblImg1.setBounds(22, 30, 300, 300);
 		frame.getContentPane().add(lblImg1);
 
 		lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblImg2.setBackground(Color.WHITE);
-		lblImg2.setBounds(450, 30, 300, 300);
+		lblImg2.setBounds(474, 30, 300, 300);
 		frame.getContentPane().add(lblImg2);
 
 		CargarImg2.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -126,7 +126,7 @@ public class MainWindow {
 		boxOperacion.addItem(" - ");
 		boxOperacion.addItem(" * ");
 		boxOperacion.addItem("\u03B1 - \u03B2");
-		boxOperacion.setBounds(365, 156, 70, 20);
+		boxOperacion.setBounds(355, 63, 70, 20);
 		frame.getContentPane().add(boxOperacion);
 
 		btnProcesar.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -193,7 +193,7 @@ public class MainWindow {
 		frame.getContentPane().add(btnProcesar);
 
 		btnHecho.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnHecho.setBounds(506, 525, 90, 25);
+		btnHecho.setBounds(355, 297, 90, 25);
 		btnHecho.setVisible(false);
 		btnHecho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -245,7 +245,7 @@ public class MainWindow {
 				sliderB.setValue(100 - n);
 			}
 		});
-		sliderA.setBounds(451, 420, 200, 50);
+		sliderA.setBounds(319, 143, 145, 50);
 		sliderA.setPaintLabels(true);
 		sliderA.setPaintTicks(true);
 		sliderA.setMajorTickSpacing(25);
@@ -253,7 +253,7 @@ public class MainWindow {
 		sliderA.setVisible(false);
 		frame.getContentPane().add(sliderA);
 
-		sliderB.setBounds(451, 475, 200, 50);
+		sliderB.setBounds(319, 236, 145, 50);
 		sliderB.setPaintLabels(true);
 		sliderB.setPaintTicks(true);
 		sliderB.setMajorTickSpacing(25);
@@ -262,13 +262,13 @@ public class MainWindow {
 		frame.getContentPane().add(sliderB);
 
 		lblAlfa.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblAlfa.setBounds(421, 424, 20, 20);
+		lblAlfa.setBounds(381, 110, 20, 20);
 		lblAlfa.setText("\u03B1 :");
 		lblAlfa.setVisible(false);
 		frame.getContentPane().add(lblAlfa);
 
 		lblBeta.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblBeta.setBounds(421, 475, 20, 20);
+		lblBeta.setBounds(381, 204, 20, 20);
 		lblBeta.setText("\u03B2 :");
 		lblBeta.setVisible(false);
 		frame.getContentPane().add(lblBeta);
