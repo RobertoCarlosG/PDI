@@ -230,6 +230,14 @@ public class MainWindow {
 						lblResult.setIcon(icono);
 						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
+						BufferedImage res 	= new BufferedImage(auxAncho,auxAlto,BufferedImage.TYPE_INT_RGB);
+						try {
+							res					= Parallel.parallelOperate("+", img1, img2, 2);
+							ImageIO.write(res, "jpg", new File("Resources\\PARALLEL.jpg"));
+						} catch (InterruptedException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
 					case " - ":
                         System.out.println("resta");

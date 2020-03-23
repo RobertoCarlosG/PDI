@@ -49,6 +49,13 @@ public class OperarImagen {
 	return res;
 	}
 	
+	public int[] bloques(int ancho, int alto, int cols, int rows){
+		int auxAlto = 0, auxAncho =0;
+		auxAlto		= (int) Math.floor(alto/rows);
+		auxAncho	= (int) Math.floor(ancho/cols);
+		int res[]	= {auxAncho,auxAlto};
+		return res;
+	}
 	
 
 	//metodo para regresar como icono la imagen seleccionada
@@ -460,7 +467,7 @@ public class OperarImagen {
 			}
 		}
 		try{
-			ImageIO.write(res, "jpg", new File("Resources\\salida.jpg"));
+			ImageIO.write(res, "jpg", new File("Resources\\PARALELOOOOOOOOOOOO.jpg"));
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
