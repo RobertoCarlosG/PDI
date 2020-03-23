@@ -170,7 +170,7 @@ public class MainWindow {
 						btnGuardar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								try{
-									ImageIO.write(result, "jpg", new File("Resources\\salida.jpg"));
+									ImageIO.write(result, "jpg", new File("Resources\\salidax.jpg"));
 								}catch (IOException e) {
 									e.printStackTrace();
 								}
@@ -211,8 +211,9 @@ public class MainWindow {
 				btnGuardar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						try{
-							ImageIO.write(result, "jpg", new File("Resources\\ImgResultSuma.png"));
-						}catch (IOException e) {
+							ImageIO.write(result, "png", new File("Resources\\ImgResultSumax.png"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -230,6 +231,8 @@ public class MainWindow {
 		});
 		frame.getContentPane().add(btnHecho);
 
+		
+		//Cambiando valores a Sliders
 		sliderB.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				int n = sliderB.getValue();
