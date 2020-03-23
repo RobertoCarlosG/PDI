@@ -9,13 +9,47 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 public class OperarImagen {
 	
 	static BufferedImage imgSave;
 	static String op;
+	
+	public int[] factores(int n)
+	{
+		int divisor = 2;
+		ArrayList<Integer> fact = new ArrayList<>();
+		while(n != 1)
+		{
+			if(n % divisor == 0){
+				fact.add(divisor);
+				n = n / divisor;
+			}else{
+				divisor++;
+			}
+		}
+		Integer[] aux = new Integer[fact.size()];
+		aux = fact.toArray(aux);
+		int f1 = 1, f2 = 1;
+		for(int i = 0; i < aux.length; i++)
+		{
+			if(i < aux.length /2){
+				f1 = f1 * aux[i];
+			}else{
+				f2 = f2 * aux[i];
+			}
+		}
+
+		int[] res = {f1,f2};
+	return res;
+	}
+
 	//metodo para regresar como icono la imagen seleccionada
+	
+	
 	public static ImageIcon redimension(BufferedImage A){
 		ImageIcon icono = new ImageIcon(A.getScaledInstance(190, 190, Image.SCALE_SMOOTH));
 		return icono;
@@ -297,70 +331,62 @@ public class OperarImagen {
 	return multi;
 	}
 	
-	public static BufferedImage combinacion_lineal(BufferedImage A, BufferedImage B,int ancho, int alto, int cols, int rows)
+	public static BufferedImage combinacionLineal(BufferedImage A, BufferedImage B,
+			int ancho, int alto, int initW, int initH, int alfa, int beta)
 	{
-		BufferedImage opLineal = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
-		opLineal  			   = redimensionar(opLineal);
+		BufferedImage res = new BufferedImage(ancho - initW,alto - initH,BufferedImage.TYPE_INT_RGB);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
-		int ancho_bloque[]	= new int[6];
-		int alto_bloque[]	= new int[4];
-		//Obteniendo el numero de saltos que hara cada bloque
-		for(int j = 0; j<6;j++)
-			ancho_bloque[j]	= (int) Math.floor(133*j);				
-		for(int j = 0; j<4;j++)
-			alto_bloque[j]	= (int) Math.floor(150*j);
-		
-		for(int i = 0; i < ancho; i++)
+		double a, be;
+		a = (double)alfa / 100;
+		be =(double) beta / 100;
+		for(int i = initW; i < ancho; i++)
 		{
-			for(int j = 0; j < alto; j++)
+			for(int j = initH; j < alto; j++)
 			{
-				/*
-				 * siguinendo las indicaciones del profesor para la Combinacion lineal
-				 * asi se declara la formula
-				*/
 				rgb1 = new Color(A.getRGB(i,j));
 				rgb2 = new Color(B.getRGB(i,j));
-				if(rgb1.getRed() + rgb2.getRed() <= 255){
-					/*
-					 * uso la funcion de piso para obtener el numero menor de la 
-					 * multiplicacion y lo casteo a numero entero
-					 * 
-					
-					*/
-					r = (int) Math.floor(rgb1.getRed()*0.4 + rgb2.getRed()*0.6);
-				}else{
-					r = 255;
-				}
-				if(rgb1.getBlue() + rgb2.getBlue() <= 255){
-					g = (int) Math.floor(rgb1.getBlue()*0.4 + rgb2.getBlue()*0.6);
-				}else{
-					g = 255;
-				}
-				if(rgb1.getGreen() + rgb2.getGreen() <= 255){
-					b = (int) Math.floor(rgb1.getGreen()*0.4 + rgb2.getGreen()*0.6);
-				}else{
-					b = 255;
-				}
-				
-				if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
-					i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) || 
-					(j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]  || 
-					j==alto_bloque[3])){
-					r = 0;
-					g = 0;
-					b = 0;
-				}
-				
+					r = (int)(a * rgb1.getRed() + be * rgb2.getRed());
+					g = (int)(a * rgb1.getBlue() + be * rgb2.getBlue());
+					b = (int)(a * rgb1.getGreen() + be * rgb2.getGreen());
 				auxColor = new Color(r,g,b);
-				/*
-				 * Set RGB va creando una imagen conforme enviamos los pixeles
-				 * en las pocisiones (i,j)
-				*/
-				opLineal.setRGB(i, j, auxColor.getRGB());
+				res.setRGB(i - initW, j - initH, auxColor.getRGB());
 			}
 		}
-	return opLineal;
 
+	return res;
 	}
+	
+	public static BufferedImage acopla(BufferedImage[] elemento)
+	{
+		int n = elemento.length;
+		int[] factor = Parallel.factores(n);
+		int auxWidth = elemento[0].getWidth() * factor[1];
+		int auxHeight = elemento[0].getHeight() * factor[0];
+		int inicioW = 0;
+		int inicioH = 0;
+		int tamW = elemento[0].getWidth();
+		int tamH = elemento[0].getHeight();
+		BufferedImage res = new BufferedImage(auxWidth,auxHeight,BufferedImage.TYPE_INT_RGB);
+
+		Graphics g = res.getGraphics();
+		for(int i = 0; i < n; i++)
+		{
+			g.drawImage(elemento[i], inicioW, inicioH, null);
+			if((i+1) % factor[1] != 0){
+				inicioW = inicioW + tamW;
+			}else{
+				inicioW = 0;
+				inicioH = inicioH + tamH;
+			}
+		}
+		try{
+			ImageIO.write(res, "jpg", new File("Resources\\salida.jpg"));
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	return res;
+	}
+	
 }

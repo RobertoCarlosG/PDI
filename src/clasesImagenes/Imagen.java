@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 
-public class Imagen {
-
+public class Imagen extends Thread {
+/*
 	int chunkCols;
 	int chunkMatrix;
 	int chunkRows;
@@ -81,143 +81,53 @@ public class Imagen {
         g.dispose();
         return bufim;
     }
-
-    //Convierte un objeto de tipo imagen en BufferedImage
-    /*
-     * FUNCION IMPRIMIR IMAGEN
-     * 
-     * */
-    public BufferedImage imprimirImagen(){
-        BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
-        for (int i = 0; i < alto; i++)
-            for (int j = 0; j < ancho; j++) 
-            	//Asignamos cada color a una matriz de colores para formar una imagen
-                salida.setRGB(j, i, arreglo[i][j].getRGB());
-        
-        return salida;
-    }
+*/
+	String simbolo;
+	int InicioW;
+	int FinW;
+	int InicioH;
+	int FinH;
+	BufferedImage imgA;
+	BufferedImage imgB;
+	BufferedImage salida;
 	
-    /*
-     * FUNCION IMPRIMIR SUMAR
-     * 
-     * */
-    
-    public BufferedImage sumar(Imagen obj, Imagen obj2, int _ancho,int _alto) {
-		// TODO Auto-generated method stub
-		BufferedImage salida = new BufferedImage(_ancho, _alto, BufferedImage.TYPE_INT_RGB);
-    	for (int i = 0; i < _alto; i++)
-            for (int j = 0; j < _ancho; j++)
-            	salida.setRGB(j, i,( (obj.arreglo[i][j].getRGB()) + (obj2.arreglo[i][j].getRGB())));
-    	return salida;
-	}
-	
-    /*
-     * FUNCION IMPRIMIR RESTAR
-     * 
-     * */
-    
-	public BufferedImage restar(Imagen obj, Imagen obj2, int _ancho,int _alto) {
-		// TODO Auto-generated method stub
-		BufferedImage salida = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
-    	for (int i = 0; i < _alto; i++)
-            for (int j = 0; j < _ancho; j++)
-            	//Obtenemos el valor resultante de una resta de rgb
-            	salida.setRGB(j, i,( (obj.arreglo[i][j].getRGB()) - (obj2.arreglo[i][j].getRGB())));
-    	return salida;
-	}
-	
-	/*
-     * FUNCION IMPRIMIR MULTIPLICAR
-     * 
-     * */
-	
-	public BufferedImage multiplicar(Imagen obj, Imagen obj2, int _ancho,int _alto) {
-		// TODO Auto-generated method stub
-		BufferedImage A         = obj.imprimirImagen();
-		BufferedImage B         = obj2.imprimirImagen();
-		BufferedImage salida    = new BufferedImage(_ancho, _alto, BufferedImage.TYPE_INT_RGB);
-		Color rgb1, rgb2, auxColor;
-		int r, g, b;
-		int k = 1 / 255;
-		for(int i = 0; i < _ancho; i++)
-		{
-			for(int j = 0; j < _alto; j++)
-			{
-				/*
-				 * siguinendo las indicaciones del profesor para la multiplicacion
-				 * asi se declara la formula
-				*/
-				rgb1 = new Color(A.getRGB(i,j));
-				rgb2 = new Color(B.getRGB(i,j));
-					r =  (rgb1.getRed() * rgb2.getRed())/255;
-					g =  (rgb1.getBlue() * rgb2.getBlue())/255;
-					b =  (rgb1.getGreen() * rgb2.getGreen())/255;
-				auxColor = new Color(r,g,b);
-				/*
-				 * Set RGB va creando una imagen conforme enviamos los pixeles
-				 * en las pocisiones (i,j)
-				*/
-				salida.setRGB(i, j, auxColor.getRGB());
-
-			}
-		}
-        return salida;
-	}
-	
-	/*
-     * FUNCION IMPRIMIR COMBINACION LINEAL
-     * 
-     * */
-	
-	public static BufferedImage combinacion_lineal(Imagen obj, Imagen obj2,int _ancho, int _alto)
+	public Imagen(String sim, int initW, int endW, int initH, int endH ,BufferedImage A, BufferedImage B)
 	{
-
-		BufferedImage A         = obj.imprimirImagen();
-		BufferedImage B         = obj2.imprimirImagen();
-		BufferedImage res = new BufferedImage(_ancho,_alto,BufferedImage.TYPE_INT_RGB);
-		Color rgb1, rgb2, auxColor;
-		int r, g, b;
-		for(int i = 0; i < _ancho; i++)
-		{
-			for(int j = 0; j < _alto; j++)
-			{
-				/*
-				 * siguinendo las indicaciones del profesor para la Combinacion lineal
-				 * asi se declara la formula
-				*/
-				rgb1 = new Color(A.getRGB(i,j));
-				rgb2 = new Color(B.getRGB(i,j));
-				if(rgb1.getRed() + rgb2.getRed() <= 255){
-					/*
-					 * uso la funcion de piso para obtener el numero menor de la 
-					 * multiplicacion y lo casteo a numero entero
-					 * 
-					
-					*/
-					r = (int) Math.floor(rgb1.getRed()*0.4 + rgb2.getRed()*0.6);
-				}else{
-					r = 255;
-				}
-				if(rgb1.getBlue() + rgb2.getBlue() <= 255){
-					g = (int) Math.floor(rgb1.getBlue()*0.4 + rgb2.getBlue()*0.6);
-				}else{
-					g = 255;
-				}
-				if(rgb1.getGreen() + rgb2.getGreen() <= 255){
-					b = (int) Math.floor(rgb1.getGreen()*0.4 + rgb2.getGreen()*0.6);
-				}else{
-					b = 255;
-				}
-				auxColor = new Color(r,g,b);
-				/*
-				 * Set RGB va creando una imagen conforme enviamos los pixeles
-				 * en las pocisiones (i,j)
-				*/
-				res.setRGB(i, j, auxColor.getRGB());
-			}
+		this.simbolo = sim;
+		this.InicioW = initW;
+		this.FinW = endW;
+		this.InicioH = initH;
+		this.FinH = endH;
+		this.imgA = A;
+		this.imgB = B;
+	}
+	
+    
+    
+    public BufferedImage getResult()
+	{
+		return salida;
+	} 
+	
+	public void run()
+	{
+		switch(simbolo){
+		case " + ":
+			salida = OperarImagen.suma(imgA, imgB, FinW, FinH, InicioW, InicioH);
+			break;
+		case " - ":
+			salida = OperarImagen.resta(imgA, imgB, FinW, FinH, InicioW, InicioH);
+			break;
+		case " * ":
+			salida = OperarImagen.multiplicacion(imgA, imgB, FinW, FinH, InicioW, InicioH);
+			break;
+		case "\u03B1 - \u03B2":
+			salida = OperarImagen.combinacionLineal(imgA, imgB, FinW, FinH, InicioW, InicioH,5,5);
+			break;
+			
 		}
-	return res;
-
+		System.out.println(this.getName()+"Ejecutando");
+		
 	}
 
 
