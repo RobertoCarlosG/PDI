@@ -74,10 +74,10 @@ public class MainWindow {
 		JButton CargarImg2 = new JButton("Cargar");
 		JButton CargarImg1 = new JButton("Cargar");
 		JComboBox boxOperacion = new JComboBox();
-		JButton btnCerrar = new JButton("Cerrar");
 		JButton btnProcesar = new JButton("PROCESAR");
 		JButton btnHecho = new JButton("Hecho");
 		JButton btnGuarda = new JButton("G U A R D A R");
+		JButton btnCER = new JButton("C E R R A R");
 		JSlider sliderA = new JSlider();
 		JSlider sliderB = new JSlider();
 		JLabel lblAlfa = new JLabel("\u03B1");
@@ -86,6 +86,10 @@ public class MainWindow {
 		btnGuarda.setBounds(413, 29, 215, 164);
 		frame.getContentPane().add(btnGuarda);
 		btnGuarda.setVisible(false);
+		
+		btnCER.setBounds(413, 223, 215, 158);
+		frame.getContentPane().add(btnCER);
+		btnCER.setVisible(false);
 		
 		
 		lblImg1.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -178,7 +182,7 @@ public class MainWindow {
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
-						btnCerrar.setVisible(true);
+						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
 						break;
 					case " - ":
@@ -188,7 +192,7 @@ public class MainWindow {
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
-						btnCerrar.setVisible(true);
+						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
 						break;
 					case " * ":
@@ -198,7 +202,7 @@ public class MainWindow {
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
-						btnCerrar.setVisible(true);
+						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
 						break;
 					case "\u03B1 - \u03B2":
@@ -260,7 +264,7 @@ public class MainWindow {
 				lblResult.setVisible(true);
 				icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 				lblResult.setIcon(icono);
-				btnCerrar.setVisible(true);
+				btnCER.setVisible(true);
 				btnGuarda.setVisible(true);
 				btnProcesar.setVisible(true);
 				}
@@ -331,6 +335,8 @@ public class MainWindow {
 		spinnerC.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		spinnerC.setBounds(235, 475, 38, 20);
 		frame.getContentPane().add(spinnerC);
+		
+		
 		
 		
 
