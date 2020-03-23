@@ -49,7 +49,7 @@ public class OperarImagen {
 	return res;
 	}
 	
-	public int[] bloques(int ancho, int alto, int cols, int rows){
+	public static int[] bloques(int ancho, int alto, int cols, int rows){
 		int auxAlto = 0, auxAncho =0;
 		auxAlto		= (int) Math.floor(alto/rows);
 		auxAncho	= (int) Math.floor(ancho/cols);

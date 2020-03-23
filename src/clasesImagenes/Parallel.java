@@ -11,11 +11,13 @@ public class Parallel {
 	
 	public static BufferedImage parallelOperate(String simb,BufferedImage imgA, BufferedImage imgB, int NumThreads) throws InterruptedException
 	{	
-		int[] factor = factores(NumThreads);
-		int tamW = imgA.getWidth() / factor[1];
+		int ancho = new Integer( Math.min(imgA.getWidth(), imgB.getWidth()));
+		int alto  = new Integer(Math.min(imgA.getHeight(), imgB.getHeight()));
+		int[] factor = OperarImagen.bloques(alto,ancho,2,2);
+		int tamW = imgA.getWidth() / factor[0];
 		int inicioW  = 0;
 		int finW = tamW;
-		int tamH = imgA.getHeight() / factor[0];
+		int tamH = imgA.getHeight() / factor[1];
 		int inicioH = 0;
 		int finH = tamH;
 		
@@ -28,7 +30,7 @@ public class Parallel {
 			
 			Imagen hilo = new Imagen(simb, inicioW, finW, inicioH, finH, imgA, imgB);
 			hilos[i] = hilo;
-			if((i+1) % factor[1] != 0){
+			if((i+1) % factor[0] != 0){
 				inicioW = inicioW + tamW;
 				finW = finW + tamW;
 			}else{
