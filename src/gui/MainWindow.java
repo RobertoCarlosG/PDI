@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -78,6 +79,20 @@ public class MainWindow {
 		JButton btnHecho = new JButton("Hecho");
 		JButton btnGuarda = new JButton("G U A R D A R");
 		JButton btnCER = new JButton("C E R R A R");
+		btnCER.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					btnCER.setVisible(false);
+					btnGuarda.setVisible(false);
+					lblResult.setVisible(false);
+					boxOperacion.show();
+					CargarImg1.show();
+					CargarImg2.show();
+					lblImg1.show();;
+					lblImg2.show();
+					btnProcesar.show();
+					lblResult.setIcon(null);
+			}
+		});
 		JSlider sliderA = new JSlider();
 		JSlider sliderB = new JSlider();
 		JLabel lblAlfa = new JLabel("\u03B1");
@@ -86,10 +101,26 @@ public class MainWindow {
 		btnGuarda.setBounds(413, 29, 215, 164);
 		frame.getContentPane().add(btnGuarda);
 		btnGuarda.setVisible(false);
+		btnGuarda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					int resp = (int) JOptionPane.showConfirmDialog(null, "�Seguro que quiere guardar la imagen?");
+					if (resp == 0){ //Si se desea guardar la imagen
+						OperarImagen.guardarImagen();
+						JOptionPane.showMessageDialog(null, "Se ha guardado la imagen");
+					}else if(resp == 1){ // No se desea guardar la imagen
+						JOptionPane.showMessageDialog(null, "No se ha guardado la imagen");
+					}else if(resp == 2){ // cancelar operaci�n
+						JOptionPane.showMessageDialog(null, "Operaci�n cancelada...");
+					}
+				
+			}
+		});
 		
 		btnCER.setBounds(413, 223, 215, 158);
 		frame.getContentPane().add(btnCER);
 		btnCER.setVisible(false);
+		
+		
 		
 		
 		lblImg1.setFont(new Font("Tahoma", Font.PLAIN, 13));
