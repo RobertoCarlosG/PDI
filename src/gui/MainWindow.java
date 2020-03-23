@@ -69,16 +69,16 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblImg1 = new JLabel("Imagen 1");
-		JLabel lblImg2 = new JLabel("Imagen 2");
-		JLabel lblResult = new JLabel("");
-		JButton CargarImg2 = new JButton("Cargar");
-		JButton CargarImg1 = new JButton("Cargar");
-		JComboBox boxOperacion = new JComboBox();
-		JButton btnProcesar = new JButton("PROCESAR");
-		JButton btnHecho = new JButton("Hecho");
-		JButton btnGuarda = new JButton("G U A R D A R");
-		JButton btnCER = new JButton("C E R R A R");
+		JLabel lblImg1 			= new JLabel("Imagen 1");
+		JLabel lblImg2 			= new JLabel("Imagen 2");
+		JLabel lblResult 		= new JLabel("");
+		JButton CargarImg2 		= new JButton("Cargar");
+		JButton CargarImg1 		= new JButton("Cargar");
+		JComboBox boxOperacion	= new JComboBox();
+		JButton btnProcesar 	= new JButton("PROCESAR");
+		JButton btnHecho 		= new JButton("Hecho");
+		JButton btnGuarda		= new JButton("G U A R D A R");
+		JButton btnCER 			= new JButton("C E R R A R");
 		btnCER.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					btnCER.setVisible(false);
@@ -136,6 +136,19 @@ public class MainWindow {
 		lblResult.setBounds(100, 10, 273, 300);
 		frame.getContentPane().add(lblResult);
 		lblResult.setVisible(false);
+		
+		JSpinner spinnerF = new JSpinner();
+		spinnerF.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(0)));
+		spinnerF.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		spinnerF.setBounds(235, 446, 38, 20);
+		frame.getContentPane().add(spinnerF);
+
+		JSpinner spinnerC = new JSpinner();
+		spinnerC.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		spinnerC.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		spinnerC.setBounds(235, 475, 38, 20);
+		frame.getContentPane().add(spinnerC);
+		
 
 		CargarImg2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		CargarImg2.addActionListener(new ActionListener() {
@@ -200,8 +213,10 @@ public class MainWindow {
 					 * los objetos chunk para procesar cada uno de ellos
 					 * */
 
-					cols		= (int) Math.floor(auxAncho/133);
-					rows		= (int) Math.floor(auxAlto/150);
+					//cols		= (int) Math.floor(auxAncho/133);
+					//rows		= (int) Math.floor(auxAlto/150);
+					cols		= (int) spinnerC.getValue();
+					rows		= (int) spinnerF.getValue();
 					System.out.println("filas : "+rows+"\tcolumnas : "+cols);
 					System.out.println("Ancho: " +auxAncho+"\tAlto: "+auxAlto);
 
@@ -246,7 +261,11 @@ public class MainWindow {
 
 						break;
 					}
-					if(current != "\u03B1 - \u03B2")
+					System.out.println("COLUMNAS: "+ spinnerC.getValue() +" FILAS: "+ spinnerF.getValue());
+					
+					/*
+					 * if(current != "\u03B1 - \u03B2")
+					 
 					{
 						JDialog imgRes = new JDialog(frame,"Imagen Resultante");
 						JLabel lblRes = new JLabel();
@@ -272,6 +291,7 @@ public class MainWindow {
 						imgRes.setVisible(true);
 
 					}
+				*/
 				}
 			}
 		});
@@ -355,17 +375,6 @@ public class MainWindow {
 		lblColumnas.setBounds(160, 479, 70, 14);
 		frame.getContentPane().add(lblColumnas);
 
-		JSpinner spinnerF = new JSpinner();
-		spinnerF.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(0)));
-		spinnerF.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerF.setBounds(235, 446, 38, 20);
-		frame.getContentPane().add(spinnerF);
-
-		JSpinner spinnerC = new JSpinner();
-		spinnerC.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinnerC.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerC.setBounds(235, 475, 38, 20);
-		frame.getContentPane().add(spinnerC);
 		
 		
 		

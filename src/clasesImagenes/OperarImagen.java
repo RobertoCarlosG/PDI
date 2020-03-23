@@ -31,21 +31,25 @@ public class OperarImagen {
 				divisor++;
 			}
 		}
-		Integer[] aux = new Integer[fact.size()];
-		aux = fact.toArray(aux);
-		int f1 = 1, f2 = 1;
-		for(int i = 0; i < aux.length; i++)
+		Integer[] aux 	= new Integer[fact.size()];
+		aux 			= fact.toArray(aux);
+		int f1 			= 1, f2 = 1;
+		for(int i 		= 0; i < aux.length; i++)
 		{
 			if(i < aux.length /2){
 				f1 = f1 * aux[i];
+				System.out.print("\tCols:"+f1);
 			}else{
 				f2 = f2 * aux[i];
+				System.out.print("\tCols:"+f2);
 			}
 		}
 
 		int[] res = {f1,f2};
 	return res;
 	}
+	
+	
 
 	//metodo para regresar como icono la imagen seleccionada
 	
@@ -148,14 +152,14 @@ public class OperarImagen {
 		sum					= redimensionar(sum);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
-		int ancho_bloque[]	= new int[6];
-		int alto_bloque[]	= new int[4];
+		int ancho_bloque[]	= new int[cols];
+		int alto_bloque[]	= new int[rows];
 		
 		//Obteniendo el numero de saltos que hara cada bloque
-		for(int j = 0; j<6;j++)
-			ancho_bloque[j]	= (int) Math.floor(133*j);				
-		for(int j = 0; j<4;j++)
-			alto_bloque[j]	= (int) Math.floor(150*j);
+		for(int j = 0; j<cols;j++)
+			ancho_bloque[j]	= (int) Math.floor(ancho/cols*j);				
+		for(int j = 0; j<rows;j++)
+			alto_bloque[j]	= (int) Math.floor(alto/rows*j);
 		
 		for(int i = 0; i < ancho; i++)
 		{
@@ -214,6 +218,26 @@ public class OperarImagen {
 				
 				/*	A Q U I		S E		H A C E N 		L O S	 	B O R D E S*/
 				
+				int comparaAncho = 0, comparaAlto = 0;
+				while (comparaAncho<ancho_bloque.length){
+					if (i==ancho_bloque[comparaAncho])
+					{
+						r = 0;
+						g = 0;
+						b = 0;
+					}
+					comparaAncho++;
+				}
+				while (comparaAlto<alto_bloque.length){
+					if (j==alto_bloque[comparaAlto])
+					{
+						r = 0;
+						g = 0;
+						b = 0;
+					}
+					comparaAlto++;
+				}
+				/*
 				if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
 				    i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) ||
 				   (j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]   ||
@@ -222,7 +246,7 @@ public class OperarImagen {
 					r = 0;
 					g = 0;
 					b = 0;
-				}
+				}*/
 				
 				/*
 				 * Set RGB va creando una imagen conforme enviamos los pixeles
@@ -232,7 +256,7 @@ public class OperarImagen {
 				sum.setRGB(i, j, auxColor.getRGB());
 			}
 		}
-	return sum;
+		return sum;
 	}
 	
 	public static BufferedImage resta(BufferedImage A, BufferedImage B, int ancho, int alto, int cols, int rows)
@@ -241,13 +265,13 @@ public class OperarImagen {
 		res				  = redimensionar(res);
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
-		int ancho_bloque[]	= new int[6];
-		int alto_bloque[]	= new int[4];
+		int ancho_bloque[]	= new int[cols];
+		int alto_bloque[]	= new int[rows];
 		//Obteniendo el numero de saltos que hara cada bloque
-		for(int j = 0; j<6;j++)
-			ancho_bloque[j]	= (int) Math.floor(133*j);				
-		for(int j = 0; j<4;j++)
-			alto_bloque[j]	= (int) Math.floor(150*j);
+		for(int j = 0; j<cols;j++)
+			ancho_bloque[j]	= (int) Math.floor(ancho/cols*j);				
+		for(int j = 0; j<rows;j++)
+			alto_bloque[j]	= (int) Math.floor(alto/rows*j);
 				
 		for(int i = 0; i < ancho; i++)
 		{
@@ -262,15 +286,42 @@ public class OperarImagen {
 				b = Math.abs(rgb1.getGreen() - rgb2.getGreen());
 				
 				
+/*	A Q U I		S E		H A C E N 		L O S	 	B O R D E S*/
+				
+				int comparaAncho = 0, comparaAlto = 0;
+				while (comparaAncho<ancho_bloque.length){
+					if (i==ancho_bloque[comparaAncho])
+					{
+						r = 0;
+						g = 0;
+						b = 0;
+					}
+					comparaAncho++;
+				}
+				while (comparaAlto<alto_bloque.length){
+					if (j==alto_bloque[comparaAlto])
+					{
+						r = 0;
+						g = 0;
+						b = 0;
+					}
+					comparaAlto++;
+				}
+				/*
 				if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
-				    i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) || 
-				   (j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]   || 
-				    j==alto_bloque[3])){
+				    i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) ||
+				   (j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]   ||
+				    j==alto_bloque[3]))
+				{
 					r = 0;
 					g = 0;
 					b = 0;
-				}
+				}*/
 				
+				/*
+				 * Set RGB va creando una imagen conforme enviamos los pixeles
+				 * en las pocisiones (i,j)
+				*/
 				/*
 				 * Set RGB va creando una imagen conforme enviamos los pixeles
 				 * en las pocisiones (i,j)
@@ -289,13 +340,13 @@ public class OperarImagen {
 		Color rgb1, rgb2, auxColor;
 		int r, g, b;
 		int k = 1 / 255;
-		int ancho_bloque[]	= new int[6];
-		int alto_bloque[]	= new int[4];
+		int ancho_bloque[]	= new int[cols];
+		int alto_bloque[]	= new int[rows];
 		//Obteniendo el numero de saltos que hara cada bloque
-		for(int j = 0; j<6;j++)
-			ancho_bloque[j]	= (int) Math.floor(133*j);				
-		for(int j = 0; j<4;j++)
-			alto_bloque[j]	= (int) Math.floor(150*j);
+		for(int j = 0; j<cols;j++)
+			ancho_bloque[j]	= (int) Math.floor(ancho/cols*j);				
+		for(int j = 0; j<rows;j++)
+			alto_bloque[j]	= (int) Math.floor(alto/rows*j);
 		for(int i = 0; i < ancho; i++)
 		{
 			for(int j = 0; j < alto; j++)
@@ -310,14 +361,42 @@ public class OperarImagen {
 					g =  (rgb1.getBlue() * rgb2.getBlue())/255;
 					b =  (rgb1.getGreen() * rgb2.getGreen())/255;
 					
+					/*	A Q U I		S E		H A C E N 		L O S	 	B O R D E S*/
+					
+					int comparaAncho = 0, comparaAlto = 0;
+					while (comparaAncho<ancho_bloque.length){
+						if (i==ancho_bloque[comparaAncho])
+						{
+							r = 0;
+							g = 0;
+							b = 0;
+						}
+						comparaAncho++;
+					}
+					while (comparaAlto<alto_bloque.length){
+						if (j==alto_bloque[comparaAlto])
+						{
+							r = 0;
+							g = 0;
+							b = 0;
+						}
+						comparaAlto++;
+					}
+					/*
 					if((i==ancho_bloque[0] || i==ancho_bloque[1] || i==ancho_bloque[2]  ||
-						i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) || 
-						(j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]  || 
-						j==alto_bloque[3])){
+					    i==ancho_bloque[3] || i==ancho_bloque[4] || i==ancho_bloque[5]) ||
+					   (j==alto_bloque[0]  || j==alto_bloque[1]  || j==alto_bloque[2]   ||
+					    j==alto_bloque[3]))
+					{
 						r = 0;
 						g = 0;
 						b = 0;
-					}
+					}*/
+					
+					/*
+					 * Set RGB va creando una imagen conforme enviamos los pixeles
+					 * en las pocisiones (i,j)
+					*/
 					
 				auxColor = new Color(r,g,b);
 				/*
