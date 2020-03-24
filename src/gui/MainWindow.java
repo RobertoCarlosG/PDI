@@ -95,8 +95,8 @@ public class MainWindow {
 		});
 		JSlider sliderA = new JSlider();
 		JSlider sliderB = new JSlider();
-		JLabel lblAlfa = new JLabel("\u03B1");
-		JLabel lblBeta = new JLabel("\u03B2");
+		JLabel lblAlfa = new JLabel("alpha");
+		JLabel lblBeta = new JLabel("beta");
 		
 		btnGuarda.setBounds(413, 29, 215, 164);
 		frame.getContentPane().add(btnGuarda);
@@ -184,19 +184,13 @@ public class MainWindow {
 		boxOperacion.addItem(" + ");
 		boxOperacion.addItem(" - ");
 		boxOperacion.addItem(" * ");
-		boxOperacion.addItem("\u03B1 - \u03B2");
+		boxOperacion.addItem(" # ");
 		boxOperacion.setBounds(355, 63, 70, 20);
 		frame.getContentPane().add(boxOperacion);
 
 		btnProcesar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnProcesar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-                boxOperacion.hide();
-				CargarImg1.hide();
-				CargarImg2.hide();
-				lblImg1.hide();
-				lblImg2.hide();
-				btnProcesar.hide();
 				if(lbl1 && lbl2){
 					String current = boxOperacion.getSelectedItem().toString();
 					int auxAncho, auxAlto;
@@ -222,6 +216,12 @@ public class MainWindow {
 
 					switch(current){
 					case " + ":
+						boxOperacion.hide();
+						CargarImg1.hide();
+						CargarImg2.hide();
+						lblImg1.hide();
+						lblImg2.hide();
+						btnProcesar.hide();
 						System.out.println("sumando");
 						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/cols,/*pixeles*fila*/rows);
 						OperarImagen.obtenerImagenAGuardar(result, "+");
@@ -230,17 +230,23 @@ public class MainWindow {
 						lblResult.setIcon(icono);
 						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
-						BufferedImage res 	= new BufferedImage(auxAncho,auxAlto,BufferedImage.TYPE_INT_RGB);
+						/*BufferedImage res 	= new BufferedImage(auxAncho,auxAlto,BufferedImage.TYPE_INT_RGB);
 						try {
 							res					= Parallel.parallelOperate("+", img1, img2, 2);
 							ImageIO.write(res, "jpg", new File("Resources\\PARALLEL.jpg"));
 						} catch (InterruptedException | IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}
+						}*/
 						break;
 					case " - ":
-                        System.out.println("resta");
+						boxOperacion.hide();
+						CargarImg1.hide();
+						CargarImg2.hide();
+						lblImg1.hide();
+						lblImg2.hide();
+						btnProcesar.hide();
+						System.out.println("resta");
 						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "-");
 						lblResult.setVisible(true);
@@ -250,6 +256,12 @@ public class MainWindow {
 						btnGuarda.setVisible(true);
 						break;
 					case " * ":
+						boxOperacion.hide();
+						CargarImg1.hide();
+						CargarImg2.hide();
+						lblImg1.hide();
+						lblImg2.hide();
+						btnProcesar.hide();
 						System.out.println("multiplicando");
 						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "*");
@@ -259,7 +271,7 @@ public class MainWindow {
 						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
 						break;
-					case "\u03B1 - \u03B2":
+					case " # ":
 						btnHecho.setVisible(true);
 						sliderA.setVisible(true);
 						sliderB.setVisible(true);
@@ -311,6 +323,18 @@ public class MainWindow {
 		btnHecho.setVisible(false);
 		btnHecho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				boxOperacion.hide();
+				CargarImg1.hide();
+				CargarImg2.hide();
+				lblImg1.hide();
+				lblImg2.hide();
+				btnProcesar.hide();
+				btnHecho.hide();
+				sliderA.hide();
+				sliderB.hide();
+				lblAlfa.hide();
+				lblBeta.hide();
+				btnProcesar.hide();
 				ImageIcon icono = null;
 				int auxAncho = new Integer( Math.min(img1.getWidth(), img2.getWidth()));
 				int auxAlto = new Integer(Math.min(img1.getHeight(), img2.getHeight()));
@@ -325,7 +349,7 @@ public class MainWindow {
 				lblResult.setIcon(icono);
 				btnCER.setVisible(true);
 				btnGuarda.setVisible(true);
-				btnProcesar.setVisible(true);
+				//btnProcesar.setVisible(true);
 				}
 
 		});

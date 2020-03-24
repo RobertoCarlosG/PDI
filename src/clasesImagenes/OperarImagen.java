@@ -6,9 +6,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Arrays;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -17,6 +22,65 @@ public class OperarImagen {
 	
 	static BufferedImage imgSave;
 	static String op;
+	// Shared resource
+	volatile boolean[][] chunkMatrix;
+	volatile BufferedImage imgR;
+	volatile File f;
+	// Imagen 1 & imagen 2
+	int[][] img1;
+	int[][] img2;
+	int width = 0;
+	int height = 0;
+	// BLOQUES
+	int chunkRows = 0;
+	int chunkCols = 0;
+	int chunkCounter = 0;
+	//Para op
+	String imgNombre;
+	String operacion;
+	double alpha;
+	int chunkPx;
+	int chunkPy;
+
+	public OperarImagen(Imagen image1, Imagen image2, int cCols, int cRows)
+	{
+		//matrix img's
+		img1 = (pixel2matrix(image1));
+		img2 = (pixel2matrix(image2));
+
+		// Set common area
+		setCommonWidth(image1.getWidth(), image2.getWidth());
+		setCommonHeight(image1.getHeight(), image2.getHeight());
+
+		// chunk
+		chunkCols = cCols;
+		chunkRows = cRows;
+		chunkCounter = chunkCols * chunkRows;
+
+		// boolean matrix
+		chunkMatrix = new boolean[chunkCols][chunkRows];
+
+		// Fill the chunkMatrix with false values
+		for(int i = 0; i < chunkMatrix.length; i++)
+		{
+			Arrays.fill(chunkMatrix[i], false);
+		}
+
+		// Initialize imgR
+		imgR = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+		// Paint black color image
+		for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+            	imgR.setRGB(x, y, -16777216);
+            }
+        }
+
+		// Initialize alpha value
+		alpha = 0.0;
+	}
 	
 	public int[] factores(int n)
 	{
@@ -474,5 +538,239 @@ public class OperarImagen {
 
 	return res;
 	}
+	
+	public void setNombreOperacion(String _imgNombre, String _operacion) {
+		imgNombre = _imgNombre;
+		operacion = _operacion;
+		f = new File(this.imgNombre);
+	}
+
+	public void setNombreOperacion(String _imgNombre, String _operacion, double a) {
+		imgNombre = _imgNombre;
+		operacion = _operacion;
+		alpha = a;
+		f = new File(this.imgNombre);
+	}
+
+	void setCommonWidth(int width1, int width2)
+	{
+		width = width2;
+		if(width1 <= width2) width = width1;
+	}
+
+	void setCommonHeight(int height1, int height2)
+	{
+		height = height2;
+		if(height1 <= height2) height = height1;
+	}
+
+	int[][] pixel2matrix(Imagen img)
+	{
+		int h = img.getHeight();
+		int w = img.getWidth();
+		int[][] matrix = new int[w][h];
+
+		for (int y = 0; y < h; y++)
+        {
+            for (int x = 0; x < w; x++)
+            {
+            	matrix[x][y] = img.getRGB(x,y);
+            }
+        }
+
+		return matrix;
+	}
+
+	BufferedImage matrix2pixel(int[][] matrix)
+	{
+		int h = matrix[0].length;
+		int w = matrix.length;
+		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+
+		for (int y = 0; y < h; y++)
+        {
+            for (int x = 0; x < w; x++)
+            {
+            	img.setRGB(x, y, matrix[x][y]);
+            }
+        }
+
+		return img;
+	}
+
+	public chunk obtainchunk(int x, int y)
+	{
+		int cols = 0, rows = 0;
+		int pInicioX = 0, pFinX = 0;
+		int pInicioY = 0, pFinY = 0;
+		boolean isLastX = false, isLastY = false;
+
+		if(x == chunkCols - 1) isLastX = true;
+		if(y == chunkRows - 1) isLastY = true;
+
+		if(isLastX) {
+			cols = (width / chunkCols) + (width % chunkCols);
+			pInicioX = (width / chunkCols) * x;
+			pFinX = width;
+		}
+		else {
+			cols = (width / chunkCols);
+			if(x != 0)
+				pInicioX = (width / chunkCols) * x;
+			pFinX = ( (width / chunkCols) * (x+1) );
+		}
+
+		if(isLastY) {
+			rows = (height / chunkRows) + (height % chunkRows);
+			pInicioY = (height / chunkRows) * y;
+			pFinY = height;
+		}
+		else {
+			rows = (height / chunkRows);
+			if(y != 0)
+				pInicioY = (height / chunkRows) * y;
+			pFinY = ( (height / chunkRows) * (y+1) );
+		}
+
+		return new chunk(x, y, rows, cols, pInicioX, pFinX, pInicioY, pFinY);
+	}
+
+	public void processchunk()
+	{
+		chunk chunk = obtainchunk(chunkPy, chunkPx);
+		int[][] res = new int[chunk.getCcols()][chunk.getCrows()];
+
+		switch (operacion) {
+		case "suma":
+			res = chunk.suma(img1, img2);
+			break;
+		case "resta":
+			res = chunk.resta(img1, img2);
+			break;
+		case "combinacion":
+			res = chunk.combinacionLineal(img1, img2, alpha);
+			break;
+		case "multiplicacion":
+			res = chunk.multiplicacion(img1, img2);
+			break;
+		default:
+			break;
+		}
+
+		int b = 0;
+		for(int y1 = chunk.getpInicioY(); y1 < chunk.getpFinY(); y1++)
+		{
+			int a = 0;
+			for (int x1 = chunk.getpInicioX(); x1 < chunk.getpFinX(); x1++)
+            {
+				int p = res[a][b];
+				imgR.setRGB(x1, y1, p);
+				a++;
+            }
+			b++;
+		}
+
+		//mostrarImagen();
+	}
+
+	public void recorrer()
+	{
+		System.out.println("chunk col: " + chunkCols);
+		System.out.println("chunk row: " + chunkRows + "\n");
+
+		System.out.println("H: " + height);
+		System.out.println("W: " + width + "\n");
+	}
+
+	public boolean searchchunk()
+	{
+		boolean itWasFound = false;
+		for (int y = 0; y < chunkCols ; y++)
+		{
+			for (int x = 0; x < chunkRows ; x++)
+			{
+				if(!chunkMatrix[y][x])
+				{
+					chunkMatrix[y][x] = true;
+
+					this.chunkPx = x;
+					this.chunkPy = y;
+
+					itWasFound = true;
+
+					return itWasFound;
+				}
+			}
+		}
+
+		return itWasFound;
+	}
+
+	public int getchunkCounter()
+	{
+		return chunkCounter;
+	}
+
+	public void almacenarImg()
+	{
+		try
+		{
+			f = new File(this.imgNombre);
+			ImageIO.write(imgR, "jpg", f);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void decrementarCounter()
+	{
+		this.chunkCounter--;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void mostrarImagen()
+	{
+		int w1 = width;
+		int h1 = height;
+
+		int w = width;
+		int h = height;
+
+		if(w1 > 400 && w1 > h1)
+		{
+			w = 400;
+			h = (h1 * 400) / w1;
+		}
+
+		if(h1 > 400 && h1 > w1)
+		{
+			h = 400;
+			w = (w1 * 400) / h1;
+		}
+
+		ImageIcon icon = new ImageIcon(imgR);
+
+		Image imagen = icon.getImage();
+		Image modify = imagen.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon(modify);
+		JLabel icono = new JLabel(icon);
+
+		JFrame f = new JFrame();
+		f.add(icono,BorderLayout.CENTER);
+		f.resize(w, h);
+		f.setVisible( true );
+
+		try {
+			Thread.sleep(1000);
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	    f.dispose();
+	}
+
 	
 }

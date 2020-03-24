@@ -2,127 +2,211 @@ package clasesImagenes;
 
 public class chunk {
 	
-	int ccols;
-	int chunkCounter;
-	int cpos[][];
-	int crows;
-	int pixelescols = 175;
-	int pixelesrows = 170;
-	boolean redi	= false;
-	
-	public chunk (){}
-	
-	public chunk(int col,int row, int pos[][]){
-		ccols	=	col;
-		crows	=	row;
-		cpos	=	pos;
-	}
-	
+	private int[] cpos;
+	private int crows;
+	private int ccols;
 
-	
-	//Recibir coordenada o n_bloque
-	/*
-	 * aqui debemos calcular el bloque que corresponde a este
-	 * numero, pero no parece que sea perteneciente a esta clase,
-	 * debemos sacar cuantos pixeles de alto y cuantos de ancho
-	 * para poder procesar una operacion OperarImagen
-	 * 
-	 */
-	public chunk obtainChunk(int n_bloque){
-		chunk xchunk = new chunk();
-		
-		return xchunk;
-	}
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	
-	/**************************  MI FUNCION OBTAINCHUNK  **********************************/
-	
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	
-	//Con (x,y) como coordenadas solo debo hacer que estas avancen el numero de pixeles
-	//que tiene cada uno de los bloques, por ejemplo si estoy en el bloque 2 sabemos que el
-	//bloque uno avanza hasta el pixel [1][175] y termina en el [170][175], por ende debemos sumar
-	//uno con el numero dado, comprobamos si es 0 el primero, otro caso se suma uno y al final solo
-	//comprobar si es el limite de la matriz
-	
-	public int[][] getSection(int board[][],int x, int y)
+	private int pInicioX;
+	private int pFinX;
+	private int pInicioY;
+	private int pFinY;
+
+	public chunk(int x, int y,  int rows, int cols,
+				 int pInicioX, int pFinX, int pInicioY, int pFinY)
 	{
-		int result[][] = null; 
-		//en caso de no ser el primer bloque no debemos sobrescribir la ultima linea
-		//de los bloques, esa es la funcion de este if
-		if(x!=0&&y!=0){
+		setCpos(x, y);
+		this.crows = rows;
+		this.ccols = cols;
+		this.pInicioX = pInicioX;
+		this.pFinX = pFinX;
+		this.pInicioY = pInicioY;
+		this.pFinY = pFinY;
+	}
 
-			x+=1;
-			y+=1;
-			int auxcol=x,auxrow=y;
+	public int[] getCpos() { return cpos; }
 
-			//iniciamos el for para avanzar de 1-1 por la matriz
-			for (int i=0; i<x-1; i++) {
-				//damos 1 a col cada que avancemos en las columnas
-				auxcol++;
-				for (int j=0; j<y-1; j++) {
-					//sumamos otro a las filas
-					auxrow++;
-					//accedemos a la posicion de los auxiliares que en primer turno valen x
-					//correspondiente a las coordenadas ingresadas
-					result[i][j]	= board[auxcol][auxrow];
-					redi			= true;
-				}
-			}
-		}else{
-			int auxcol=x,auxrow=y;
-			//iniciamos el for para avanzar de 1-1 por la matriz
-			for (int i=0; i<x-1; i++) {
-				//damos 1 a col cada que avancemos en las columnas
-				auxcol++;
-				for (int j=0; j<y-1; j++) {
-					//sumamos otro a las filas
-					auxrow++;
-					//accedemos a la posicion de los auxiliares que en primer turno valen x
-					//correspondiente a las coordenadas ingresadas
-					result[i][j]	= board[auxcol][auxrow];
-					redi			= true;
-				}
-			}
-		}
-		return result;
+	public void setCpos(int posx, int posy)
+	{
+		this.cpos = new int[2];
+		cpos[0] = posx;
+		cpos[1] = posy;
 	}
-	
 
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	/**************************************************************************************/
-	
-	public int get_ccols(){
-		return ccols;
+	public int getCrows() {
+	    return crows;
+    }
+
+	public int getCcols() {
+	    return ccols;
 	}
-	
-	public int get_crows(){
-		return crows;
+
+	public int getpInicioX() {
+	    return pInicioX;
+    }
+
+	public int getpFinX() {
+	    return pFinX;
 	}
-	
-	public int[][] get_cpos(){
-		return cpos;
+
+	public int getpInicioY() {
+	    return pInicioY;
+    }
+
+	public int getpFinY() {
+	    return pFinY;
 	}
-	
-	public void set_ccols(int col){
-		ccols	= col;
+
+	public int[][] suma(int[][] img1, int[][] img2)
+	{
+		int[][] resultado = new int[ccols][crows];
+
+		int c = 0;
+		for (int y = pInicioY; y < pFinY; y++)
+        {
+			int d = 0;
+            for (int x = pInicioX; x < pFinX; x++)
+            {
+            	int p1 = img1[x][y];
+                int r1 = (p1>>16) & 0xff;
+                int g1 = (p1>>8) & 0xff;
+                int b1 = p1 & 0xff;
+
+                int p2 = img2[x][y];
+                int r2 = (p2>>16) & 0xff;
+                int g2 = (p2>>8) & 0xff;
+                int b2 = p2 & 0xff;
+
+                int p, a = 255, r = 255, g = 255, b = 255;
+                if((r1 + r2) <= 255) r = r1 + r2;
+                if((g1 + g2) <= 255) g = g1 + g2;
+                if((b1 + b2) <= 255) b = b1 + b2;
+
+                p = (a<<24) | (r<<16) | (g<<8) | b;
+
+                resultado[d][c] = p;
+                d++;
+            }
+            c++;
+        }
+
+		return resultado;
 	}
-	
-	public void set_crows(int row){
-		crows	= row;
+
+	public int[][] resta(int[][] img1, int[][] img2)
+	{
+		int[][] resultado = new int[ccols][crows];
+
+		int c = 0;
+		for (int y = pInicioY; y < pFinY; y++)
+        {
+			int d = 0;
+            for (int x = pInicioX; x < pFinX; x++)
+            {
+            	int p1 = img1[x][y];
+                int r1 = (p1>>16) & 0xff;
+                int g1 = (p1>>8) & 0xff;
+                int b1 = p1 & 0xff;
+
+                int p2 = img2[x][y];
+                int r2 = (p2>>16) & 0xff;
+                int g2 = (p2>>8) & 0xff;
+                int b2 = p2 & 0xff;
+
+                int p, a = 255, r = 0, g = 0, b = 0;
+                if((r1 - r2) >= 0) r = r1 - r2;
+                if((g1 - g2) >= 0) g = g1 - g2;
+                if((b1 - b2) >= 0) b = b1 - b2;
+
+                p = (a<<24) | (r<<16) | (g<<8) | b;
+
+                resultado[d][c] = p;
+                d++;
+            }
+            c++;
+        }
+
+		return resultado;
 	}
-	
-	public void set_cpos(int pos){
-		ccols	= pos;
+
+	public int[][] combinacionLineal(int[][] img1, int[][] img2, double peso)
+	{
+		double peso2 = 1 - peso;
+		int[][] resultado = new int[ccols][crows];
+
+		int c = 0;
+		for (int y = pInicioY; y < pFinY; y++)
+        {
+			int d = 0;
+            for (int x = pInicioX; x < pFinX; x++)
+            {
+            	int p1 = img1[x][y];
+                int r1 = (p1>>16) & 0xff;
+                int g1 = (p1>>8) & 0xff;
+                int b1 = p1 & 0xff;
+
+                int p2 = img2[x][y];
+                int r2 = (p2>>16) & 0xff;
+                int g2 = (p2>>8) & 0xff;
+                int b2 = p2 & 0xff;
+
+                int p, a = 255, r = 255, g = 255, b = 255;
+
+                if((int) ((r1 * peso) + (r2 * peso2)) <= 255)
+                	r = (int) ((r1 * peso) + (r2 * peso2));
+
+                if((int) ((g1 * peso) + (g2 * peso2)) <= 255)
+                	g = (int) ((g1 * peso) + (g2 * peso2));
+
+                if((int) ((b1 * peso) + (b2 * peso2)) <= 255)
+                	b = (int) ((b1 * peso) + (b2 * peso2));
+
+                p = (a<<24) | (r<<16) | (g<<8) | b;
+
+                resultado[d][c] = p;
+                d++;
+            }
+            c++;
+        }
+
+		return resultado;
 	}
+
+	public int[][] multiplicacion(int[][] img1, int[][] img2)
+	{
+		double k  = 1.0 / 255.0;
+		int[][] resultado = new int[ccols][crows];
+
+		int c = 0;
+		for (int y = pInicioY; y < pFinY; y++)
+        {
+			int d = 0;
+            for (int x = pInicioX; x < pFinX; x++)
+            {
+            	int p1 = img1[x][y];
+                int r1 = (p1>>16) & 0xff;
+                int g1 = (p1>>8) & 0xff;
+                int b1 = p1 & 0xff;
+
+                int p2 = img2[x][y];
+                int r2 = (p2>>16) & 0xff;
+                int g2 = (p2>>8) & 0xff;
+                int b2 = p2 & 0xff;
+
+                int p, a = 255, r = 0, g = 0, b = 0;
+                r = (int) (r1 * r2 * k);
+                g = (int) (g1 * g2 * k);
+                b = (int) (b1 * b2 * k);
+
+                p = (a<<24) | (r<<16) | (g<<8) | b;
+
+                resultado[d][c] = p;
+                d++;
+            }
+            c++;
+        }
+
+		return resultado;
+	}
+
 	
 }

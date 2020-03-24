@@ -90,6 +90,11 @@ public class Imagen extends Thread {
 	BufferedImage imgA;
 	BufferedImage imgB;
 	BufferedImage salida;
+	private BufferedImage img;
+    private File file;
+    private int width;
+	private int height;
+	private String dir;
 	
 	public Imagen(String sim, int initW, int endW, int initH, int endH ,BufferedImage A, BufferedImage B)
 	{
@@ -108,29 +113,38 @@ public class Imagen extends Thread {
 	{
 		return salida;
 	} 
-	
-	public void run()
+    public Imagen(String direccion)
 	{
-		switch(simbolo){
-		case " + ":
-			salida = OperarImagen.suma(imgA, imgB, FinW, FinH, InicioW, InicioH);
-			break;
-		case " - ":
-			salida = OperarImagen.resta(imgA, imgB, FinW, FinH, InicioW, InicioH);
-			break;
-		case " * ":
-			salida = OperarImagen.multiplicacion(imgA, imgB, FinW, FinH, InicioW, InicioH);
-			break;
-		case "\u03B1 - \u03B2":
-			salida = OperarImagen.combinacionLineal(imgA, imgB, FinW, FinH, InicioW, InicioH,5,5);
-			break;
-			
+		dir = direccion;
+		img = null;
+        file = null;
+        
+        try {
+        	file = new File(direccion);
+			img = ImageIO.read(file);
+			width = img.getWidth();
+	        height = img.getHeight();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		System.out.println(this.getName()+"Ejecutando");
-		
+	}
+	
+	public String getDireccion() {
+		return dir;
+	}
+	
+	public int getWidth() {
+		return width;
 	}
 
-
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getRGB(int x, int y) {
+		return img.getRGB(x,y);
+	}
+	
 	
 	public int pixel2matrix(int alto,int ancho){
 		BufferedImage res = new BufferedImage(ancho,alto,BufferedImage.TYPE_INT_RGB);
