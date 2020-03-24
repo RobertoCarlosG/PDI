@@ -296,6 +296,8 @@ public class MainWindow {
 						}
 						//OperarImagen.obtenerImagenAGuardar(result, "+");
 						lblResult.setVisible(true);
+						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto, cols, rows);
+						OperarImagen.obtenerImagenAGuardar(result, "-");
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCER.setVisible(true);
@@ -316,7 +318,29 @@ public class MainWindow {
 						lblImg1.hide();
 						lblImg2.hide();
 						btnProcesar.hide();
+						Op.setNombreOperacion(dir1, "resta");
 						System.out.println("resta");
+						for (int j = 0; j < imageController.length; j++) 
+						{
+							imageController[j] = new Parallel(Op, lock, j);
+							imageController[j].start();
+						}
+						
+						for (int k = 0; k < imageController.length; k++) 
+						{
+							try {
+								imageController[k].join();
+							} catch (InterruptedException e1) {
+								e1.printStackTrace();
+							}
+						}
+						try {
+							BufferedImage result	= ImageIO.read(new File(dir1));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 						result	= OperarImagen.resta(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "-");
 						lblResult.setVisible(true);
@@ -334,6 +358,7 @@ public class MainWindow {
 						lblImg2.hide();
 						btnProcesar.hide();
 						System.out.println("multiplicando");
+						Op.setNombreOperacion(dir1, "multiplicacion");
 						result	= OperarImagen.multiplicacion(img1, img2, auxAncho, auxAlto, cols, rows);
 						OperarImagen.obtenerImagenAGuardar(result, "*");
 						lblResult.setVisible(true);
@@ -350,12 +375,12 @@ public class MainWindow {
 						lblAlfa.setVisible(true);
 						lblBeta.setVisible(true);
 						btnProcesar.setVisible(false);
+						System.out.println("Combinacion Lineal");
 
 						break;
 					}
 					System.out.println("COLUMNAS: "+ spinnerC.getValue() +" FILAS: "+ spinnerF.getValue());
-					IDialogo dI = new IDialogo(shell, dir1);
-					dI.open();
+					
 					
 					/*
 					 * if(current != "\u03B1 - \u03B2")
@@ -409,6 +434,35 @@ public class MainWindow {
 				lblAlfa.hide();
 				lblBeta.hide();
 				btnProcesar.hide();
+				int cols,rows;
+				cols		= (int) spinnerC.getValue();
+				rows		= (int) spinnerF.getValue();
+				int hilos		= (int) spinner.getValue();
+				OperarImagen Op = new OperarImagen(IMG1, IMG2, cols, rows);
+				Lock lock = new Bakery(hilos);
+				Parallel imageController[] = new Parallel[hilos];
+				Op.setNombreOperacion(dir1, "combinacion");
+				for (int j = 0; j < imageController.length; j++) 
+				{
+					imageController[j] = new Parallel(Op, lock, j);
+					imageController[j].start();
+				}
+				
+				for (int k = 0; k < imageController.length; k++) 
+				{
+					try {
+						imageController[k].join();
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+				}
+				try {
+					BufferedImage result	= ImageIO.read(new File(dir1));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				ImageIcon icono = null;
 				int auxAncho = new Integer( Math.min(img1.getWidth(), img2.getWidth()));
 				int auxAlto = new Integer(Math.min(img1.getHeight(), img2.getHeight()));
