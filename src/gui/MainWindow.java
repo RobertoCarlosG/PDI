@@ -487,12 +487,6 @@ public class MainWindow {
 		lblHilos.setBounds(530, 450, 46, 14);
 		frame.getContentPane().add(lblHilos);
 		
-		
-		
-		
-		
-		
-		
 
 	}
 	

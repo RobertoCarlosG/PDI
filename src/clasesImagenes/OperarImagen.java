@@ -716,7 +716,7 @@ public class OperarImagen {
 		try
 		{
 			f = new File(this.imgNombre);
-			ImageIO.write(imgR, "jpg", f);
+			ImageIO.write(imgR, "jpg", new File("Resources\\ImgResult.png"));
 		}
 		catch (IOException e)
 		{
@@ -729,47 +729,23 @@ public class OperarImagen {
 		this.chunkCounter--;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void mostrarImagen()
 	{
-		int w1 = width;
-		int h1 = height;
-
-		int w = width;
-		int h = height;
-
-		if(w1 > 400 && w1 > h1)
-		{
-			w = 400;
-			h = (h1 * 400) / w1;
-		}
-
-		if(h1 > 400 && h1 > w1)
-		{
-			h = 400;
-			w = (w1 * 400) / h1;
-		}
-
+		// GRACIAS A OS HILOS LA IMAGEN SE CARGA Y SE SUBE
 		ImageIcon icon = new ImageIcon(imgR);
-
 		Image imagen = icon.getImage();
-		Image modify = imagen.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
-		icon = new ImageIcon(modify);
-		JLabel icono = new JLabel(icon);
-
-		JFrame f = new JFrame();
-		f.add(icono,BorderLayout.CENTER);
-		f.resize(w, h);
-		f.setVisible( true );
-
+		imgSave		 = (BufferedImage) imagen;
 		try {
 			Thread.sleep(1000);
-
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-	    f.dispose();
+		try {
+			ImageIO.write(imgSave, "png", new File("Resources\\ImgACachos.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
