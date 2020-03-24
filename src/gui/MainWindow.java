@@ -1,39 +1,51 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.Image;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.Desktop;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import clasesImagenes.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+//import org.eclipse.swt.graphics.Image;
+
+
+import clasesImagenes.Bakery;
+import clasesImagenes.IDialogo;
+import clasesImagenes.Imagen;
+import clasesImagenes.Lock;
+import clasesImagenes.OperarImagen;
+import clasesImagenes.Parallel;
+import clasesImagenes.abrirImagen;
 
 public class MainWindow {
 
 	private JFrame frame;
+	protected Shell shell;
+	public static Display display;
+	private Imagen IMG1;
+    private Imagen IMG2;
+    private String dir1 = "", dir2 = "";
 	abrirImagen ObjAbrir = new abrirImagen();
 	BufferedImage img1, img2, result;
 	boolean lbl1 = false, lbl2 = false;
@@ -60,11 +72,33 @@ public class MainWindow {
 		initialize();
 	}
 
+	public void open() {
+		Display display = Display.getDefault();
+		createContents();
+		shell.open();
+		shell.layout();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+	}
+	
+	
+	protected void createContents() {
+		display = Display.getCurrent();
+		shell = new Shell(display, SWT.CLOSE | SWT.TITLE | SWT.MIN);
+		shell.setMaximized(false);
+		shell.setSize(1100, 650);
+		shell.setText("Procesador de imagenes");
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -120,7 +154,10 @@ public class MainWindow {
 		frame.getContentPane().add(btnCER);
 		btnCER.setVisible(false);
 		
-		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(2, 2, 10, 2));
+		spinner.setBounds(586, 447, 29, 20);
+		frame.getContentPane().add(spinner);
 		
 		
 		lblImg1.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -140,13 +177,13 @@ public class MainWindow {
 		JSpinner spinnerF = new JSpinner();
 		spinnerF.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(0)));
 		spinnerF.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerF.setBounds(235, 446, 38, 20);
+		spinnerF.setBounds(105, 446, 38, 20);
 		frame.getContentPane().add(spinnerF);
 
 		JSpinner spinnerC = new JSpinner();
 		spinnerC.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spinnerC.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		spinnerC.setBounds(235, 475, 38, 20);
+		spinnerC.setBounds(387, 446, 38, 20);
 		frame.getContentPane().add(spinnerC);
 		
 
@@ -155,7 +192,10 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent arg0) {
 				img2 = ObjAbrir.abrirImagenLocal();
 		        if (img2 != null){
+		        	String name = ObjAbrir.getName();
 		            lblImg2.setIcon(OperarImagen.redimension(img2));
+		            dir2 = ObjAbrir.getDir();
+		            IMG2 = new Imagen (dir2);
 		            lbl2 = true;
 		        }else{
 		        	lbl2 = false;
@@ -170,7 +210,10 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent e) {
 				img1 = ObjAbrir.abrirImagenLocal();
 				if (img1 != null){
+					String name = ObjAbrir.getName();
 		            lblImg1.setIcon(OperarImagen.redimension(img1));
+		            dir1 = ObjAbrir.getDir();
+		            IMG1 = new Imagen (dir1);
 		            lbl1 = true;
 				}else{
 					lbl1 = false;
@@ -211,11 +254,19 @@ public class MainWindow {
 					//rows		= (int) Math.floor(auxAlto/150);
 					cols		= (int) spinnerC.getValue();
 					rows		= (int) spinnerF.getValue();
+					int hilos 	= 0;
 					System.out.println("filas : "+rows+"\tcolumnas : "+cols);
 					System.out.println("Ancho: " +auxAncho+"\tAlto: "+auxAlto);
-
+					
+					hilos		= (int) spinner.getValue();
+					OperarImagen Op = new OperarImagen(IMG1, IMG2, cols, rows);
+					Lock lock = new Bakery(hilos);
+					Parallel imageController[] = new Parallel[hilos];
+					
+					
 					switch(current){
 					case " + ":
+						Op.setNombreOperacion(dir1, "suma");
 						boxOperacion.hide();
 						CargarImg1.hide();
 						CargarImg2.hide();
@@ -223,8 +274,27 @@ public class MainWindow {
 						lblImg2.hide();
 						btnProcesar.hide();
 						System.out.println("sumando");
-						result	= OperarImagen.suma(img1, img2, auxAncho, auxAlto,/*pixeles*columna*/cols,/*pixeles*fila*/rows);
-						OperarImagen.obtenerImagenAGuardar(result, "+");
+						for (int j = 0; j < imageController.length; j++) 
+						{
+							imageController[j] = new Parallel(Op, lock, j);
+							imageController[j].start();
+						}
+						
+						for (int k = 0; k < imageController.length; k++) 
+						{
+							try {
+								imageController[k].join();
+							} catch (InterruptedException e1) {
+								e1.printStackTrace();
+							}
+						}
+						try {
+							BufferedImage result	= ImageIO.read(new File(dir1));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						//OperarImagen.obtenerImagenAGuardar(result, "+");
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
@@ -253,6 +323,7 @@ public class MainWindow {
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
 						btnCER.setVisible(true);
+						System.out.print("SCALESMOOTH "+Image.SCALE_SMOOTH);
 						btnGuarda.setVisible(true);
 						break;
 					case " * ":
@@ -268,6 +339,7 @@ public class MainWindow {
 						lblResult.setVisible(true);
 						icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
 						lblResult.setIcon(icono);
+						System.out.print("SCALESMOOTH "+Image.SCALE_SMOOTH);
 						btnCER.setVisible(true);
 						btnGuarda.setVisible(true);
 						break;
@@ -282,6 +354,8 @@ public class MainWindow {
 						break;
 					}
 					System.out.println("COLUMNAS: "+ spinnerC.getValue() +" FILAS: "+ spinnerF.getValue());
+					IDialogo dI = new IDialogo(shell, dir1);
+					dI.open();
 					
 					/*
 					 * if(current != "\u03B1 - \u03B2")
@@ -346,6 +420,7 @@ public class MainWindow {
 				OperarImagen.obtenerImagenAGuardar(result, "#");
 				lblResult.setVisible(true);
 				icono	= new ImageIcon(result.getScaledInstance(lblResult.getWidth(), lblResult.getHeight(), Image.SCALE_SMOOTH));
+				System.out.print("SCALESMOOTH "+Image.SCALE_SMOOTH);
 				lblResult.setIcon(icono);
 				btnCER.setVisible(true);
 				btnGuarda.setVisible(true);
@@ -399,18 +474,28 @@ public class MainWindow {
 
 		JLabel lblFilas = new JLabel("Filas:");
 		lblFilas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFilas.setBounds(187, 450, 38, 14);
+		lblFilas.setBounds(41, 449, 38, 14);
 		frame.getContentPane().add(lblFilas);
 
 		JLabel lblColumnas = new JLabel("Columnas:");
 		lblColumnas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblColumnas.setBounds(160, 479, 70, 14);
+		lblColumnas.setBounds(286, 449, 70, 14);
 		frame.getContentPane().add(lblColumnas);
-
+		
+		JLabel lblHilos = new JLabel("Hilos:");
+		lblColumnas.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblHilos.setBounds(530, 450, 46, 14);
+		frame.getContentPane().add(lblHilos);
+		
+		
+		
 		
 		
 		
 		
 
 	}
+	
+
+	
 }

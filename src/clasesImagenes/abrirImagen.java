@@ -13,6 +13,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 
 public class abrirImagen {
+	public String nombre 	= "";
+	public String direccion = "";
 	private JFileChooser selectorDialog;
 	
 	private void errorImagen(){
@@ -49,6 +51,8 @@ public class abrirImagen {
           try {
         	  //se carga la imagen seleccionada
               imagenRetorno = ImageIO.read(this.selectorDialog.getSelectedFile());
+              direccion 	= this.selectorDialog.getSelectedFile().getAbsolutePath();
+              nombre 		= this.selectorDialog.getSelectedFile().getName();
               if (imagenRetorno!=null){
             	  //Aqui deberia construit un onjeto de tipo imagen
               }else{
@@ -59,5 +63,15 @@ public class abrirImagen {
           }
       }        
       return imagenRetorno;
+  }
+  
+  public String  getDir(){
+	  System.out.println(direccion);
+	  return direccion;
+  }
+  
+  public String  getName(){
+	  System.out.println(nombre);
+	  return nombre;
   }
 }
